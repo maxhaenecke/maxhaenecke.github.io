@@ -443,7 +443,7 @@ body {
   text-transform: uppercase;
   color: var(--fg-faint);
 }
-.blog-meta .tag { color: var(--fg); opacity: 0.85; }
+.blog-meta .tag { color: var(--fg-muted); }
 .blog-meta .sep { color: var(--fg); }
 
 /* "Weiterlesen" */
@@ -624,7 +624,7 @@ body {
   font-size: var(--t-caps);
   letter-spacing: var(--tk-caps);
   text-transform: uppercase;
-  color: var(--fg);
+  color: var(--fg-muted);
 }
 .blog-row .row-tags .sep { color: var(--fg-faint); }
 .blog-row .arrow {
