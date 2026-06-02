@@ -1,0 +1,119 @@
+{{ define "main" }}
+{{ partial "nav.html" (dict "Site" .Site "current" "archive") }}
+
+{{/* Unique platforms and genres from pages */}}
+{{ $platforms := slice }}
+{{ $genres    := slice }}
+{{ range .Pages }}
+  {{ with .Params.platform }}
+    {{ if not (in $platforms .) }}{{ $platforms = $platforms | append . }}{{ end }}
+  {{ end }}
+  {{ with .Params.genre }}
+    {{ if not (in $genres .) }}{{ $genres = $genres | append . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+<div class="blog-archive-head">
+  <h1>Archiv</h1>
+
+  <div class="blog-filters-bar">
+    <div class="blog-filters-group">
+      <button class="blog-chip is-active" data-filter="all">
+        Alle Artikel <span class="blog-chip-count">{{ len .Pages }}</span>
+      </button>
+    </div>
+    <div class="blog-filters-group">
+      {{ range $platforms }}
+      {{ $p := . }}
+      {{ $count := 0 }}
+      {{ range $.Pages }}{{ if eq .Params.platform $p }}{{ $count = add $count 1 }}{{ end }}{{ end }}
+      <button class="blog-chip" data-filter="{{ lower $p }}">
+        {{ $p }}<span class="blog-chip-count">{{ $count }}</span>
+      </button>
+      {{ end }}
+    </div>
+    <div class="blog-filters-group">
+      {{ range $genres }}
+      {{ $g := . }}
+      {{ $count := 0 }}
+      {{ range $.Pages }}{{ if eq .Params.genre $g }}{{ $count = add $count 1 }}{{ end }}{{ end }}
+      <button class="blog-chip" data-filter="{{ lower $g }}">
+        {{ $g }}<span class="blog-chip-count">{{ $count }}</span>
+      </button>
+      {{ end }}
+    </div>
+    <div class="blog-search">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input type="text" id="archive-search" placeholder="Suchen …" autocomplete="off">
+    </div>
+  </div>
+</div>
+
+<div class="blog-list" id="archive-list">
+  {{ range .Pages.ByDate.Reverse }}
+    {{ partial "archive-row.html" . }}
+  {{ end }}
+</div>
+
+{{ partial "footer.html" . }}
+
+<script>
+(function () {
+  var rows   = document.querySelectorAll('.blog-row');
+  var search = document.getElementById('archive-search');
+  var chips  = document.querySelectorAll('.blog-chip[data-filter]');
+
+  function applyFilters() {
+    var q      = search ? search.value.toLowerCase() : '';
+    var active = document.querySelector('.blog-chip.is-active[data-filter]');
+    var tag    = active ? active.dataset.filter : 'all';
+
+    rows.forEach(function (row) {
+      var platform  = row.dataset.platform || '';
+      var genre     = row.dataset.genre    || '';
+      var titleEl   = row.querySelector('.title');
+      var title     = titleEl ? titleEl.textContent.toLowerCase() : '';
+      var tagMatch  = tag === 'all' || platform === tag || genre === tag;
+      var textMatch = !q || title.includes(q) || platform.includes(q) || genre.includes(q);
+      row.style.display = (tagMatch && textMatch) ? '' : 'none';
+    });
+  }
+
+  if (search) search.addEventListener('input', applyFilters);
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.classList.remove('is-active'); });
+      chip.classList.add('is-active');
+      applyFilters();
+    });
+  });
+
+  // Right-align search when on same row as chips, left-align when wrapped
+  var searchEl = document.querySelector('.blog-filters-bar .blog-search');
+  var firstGroup = document.querySelector('.blog-filters-group');
+  function updateSearchAlign() {
+    if (!searchEl || !firstGroup) return;
+    searchEl.style.marginLeft = searchEl.offsetTop > firstGroup.offsetTop ? '0' : 'auto';
+  }
+  updateSearchAlign();
+  window.addEventListener('resize', updateSearchAlign);
+
+  // Activate filter from URL param (?filter=ps1)
+  var urlFilter = new URLSearchParams(window.location.search).get('filter');
+  if (urlFilter) {
+    var match = Array.from(chips).find(function (c) { return c.dataset.filter === urlFilter; });
+    if (match) {
+      chips.forEach(function (c) { c.classList.remove('is-active'); });
+      match.classList.add('is-active');
+    }
+    applyFilters();
+  }
+
+
+}());
+</script>
+{{ end }}

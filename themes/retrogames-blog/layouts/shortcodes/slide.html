@@ -1,0 +1,41 @@
+{{- /*
+  slide — Kindelement von {{< slider >}}
+  Parameter:
+    src      (verpflichtend) Pfad zum Bild · Page Resource oder global
+    caption  (optional)      Bildunterschrift
+    alt      (optional)      Alt-Text · Default: caption
+*/ -}}
+{{- if not .Parent -}}
+  {{- errorf "{{< slide >}} muss innerhalb eines {{< slider >}}-Shortcodes stehen (Seite: %s)" .Page.Path -}}
+{{- else if ne .Parent.Name "slider" -}}
+  {{- errorf "{{< slide >}} darf nur direkt unter {{< slider >}} stehen, nicht unter {{< %s >}} (Seite: %s)" .Parent.Name .Page.Path -}}
+{{- else -}}
+  {{- $src     := .Get "src" | default (.Get 0) -}}
+  {{- $caption := .Get "caption" | default (.Get 1) | default "" -}}
+  {{- $alt     := .Get "alt" | default $caption -}}
+
+  {{- $img := .Page.Resources.GetMatch $src -}}
+  {{- if not $img -}}
+    {{- $img = resources.GetMatch $src -}}
+  {{- end -}}
+
+  {{- $finalSrc := $src -}}
+  {{- $w := 0 -}}
+  {{- $h := 0 -}}
+  {{- with $img -}}
+    {{- $r := . -}}
+    {{- if gt .Width 1600 -}}
+      {{- $r = .Resize "1600x" -}}
+    {{- end -}}
+    {{- $finalSrc = $r.RelPermalink -}}
+    {{- $w = $r.Width -}}
+    {{- $h = $r.Height -}}
+  {{- end -}}
+
+  {{- .Parent.Scratch.Add "items" (slice (dict
+        "src"     $finalSrc
+        "alt"     $alt
+        "caption" $caption
+        "w"       $w
+        "h"       $h)) -}}
+{{- end -}}

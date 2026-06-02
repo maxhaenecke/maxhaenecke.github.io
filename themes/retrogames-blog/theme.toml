@@ -1,0 +1,8 @@
+name        = "retrogames-blog"
+license     = "MIT"
+description = "Retro Gaming Blog Theme für Hugo"
+tags        = ["blog", "gaming", "dark"]
+min_version = "0.120.0"
+
+[author]
+  name = ""

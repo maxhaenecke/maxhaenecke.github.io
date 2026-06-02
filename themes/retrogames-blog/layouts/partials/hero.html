@@ -1,0 +1,21 @@
+<section class="blog-hero">
+  <div class="blog-hero-media{{ if not .Params.image }} ph{{ end }}">
+    {{ with .Params.image }}
+    <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="eager"{{ with $.Params.image_position }} style="object-position: {{ . }}"{{ end }}>
+    {{ end }}
+    <div class="blog-hero-fade"></div>
+  </div>
+  <div class="blog-hero-content">
+    {{ with .Params.tag }}<span class="blog-hero-tag">{{ . }}</span>{{ end }}
+    <div class="blog-hero-meta">
+      {{ with .Params.platform }}<span>{{ . }}</span>{{ end }}
+      {{ if and .Params.platform .Params.genre }}<span class="sep">·</span>{{ end }}
+      {{ with .Params.genre }}<span>{{ . }}</span>{{ end }}
+      {{ if or .Params.platform .Params.genre }}<span class="sep">·</span>{{ end }}
+      <span>{{ .Date.Format "02.01.06" }}</span>
+    </div>
+    <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
+    {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
+    <a class="blog-hero-btn" href="{{ .RelPermalink }}">Weiterlesen</a>
+  </div>
+</section>

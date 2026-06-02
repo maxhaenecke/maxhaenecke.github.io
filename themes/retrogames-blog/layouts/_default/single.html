@@ -1,0 +1,55 @@
+{{ define "main" }}
+{{ partial "nav.html" (dict "Site" .Site "current" "") }}
+
+
+<div class="blog-article-hero">
+  <div class="blog-article-hero__image{{ if not .Params.image }} ph{{ end }}">
+    {{ with .Params.image }}
+    <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="eager">
+    {{ end }}
+  </div>
+  <div class="blog-article-hero__text">
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
+    <div class="article-meta">
+      {{ with .Params.platform }}<span>{{ . }}</span>{{ end }}
+      {{ if and .Params.platform .Params.genre }}<span class="meta-sep">·</span>{{ end }}
+      {{ with .Params.genre }}<span>{{ . }}</span>{{ end }}
+      {{ if or .Params.platform .Params.genre }}<span class="meta-sep">·</span>{{ end }}
+      <span>{{ .Date.Format "02.01.06" }}</span>
+    </div>
+  </div>
+</div>
+
+<article class="blog-article-body">
+  {{ .Content }}
+
+  {{ if or .Params.platform .Params.genre }}
+  <div class="article-tag-footer">
+    {{ with .Params.platform }}
+    <a href="{{ printf "/archive/" | relURL }}?filter={{ lower . }}" class="article-footer-tag">{{ . }}</a>
+    {{ end }}
+    {{ with .Params.genre }}
+    <a href="{{ printf "/archive/" | relURL }}?filter={{ lower . }}" class="article-footer-tag">{{ . }}</a>
+    {{ end }}
+  </div>
+  {{ end }}
+</article>
+
+{{ $current := . }}
+{{ $candidates := where .Site.RegularPages ".Params.platform" .Params.platform | first 10 }}
+{{ $related := slice }}
+{{ range $candidates }}
+  {{ if and (ne .RelPermalink $current.RelPermalink) (lt (len $related) 3) }}
+    {{ $related = $related | append . }}
+  {{ end }}
+{{ end }}
+{{ if $related }}
+<div class="blog-related">
+  <h2>Ähnliche Artikel</h2>
+  {{ partial "card-grid.html" (dict "articles" $related) }}
+</div>
+{{ end }}
+
+{{ partial "footer.html" . }}
+{{ end }}

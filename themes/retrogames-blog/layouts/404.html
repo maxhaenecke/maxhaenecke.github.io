@@ -1,0 +1,11 @@
+{{ define "main" }}
+{{ partial "nav.html" (dict "Site" .Site "current" "") }}
+
+<div class="blog-404">
+  <span class="blog-404-code">404</span>
+  <p>Sorry, nichts los hier.</p>
+  <a href="/" class="blog-pill">Zum Blog</a>
+</div>
+
+{{ partial "footer.html" . }}
+{{ end }}

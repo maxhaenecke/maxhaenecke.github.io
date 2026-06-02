@@ -1,0 +1,4 @@
+<div class="blog-hinweis">
+  {{ with .Get "label" }}<div class="blog-hinweis__label"><span>{{ . }}</span></div>{{ end }}
+  <div class="blog-hinweis__body">{{ .Inner | markdownify }}</div>
+</div>

@@ -1,0 +1,25 @@
+baseURL = "http://localhost:1313/"
+languageCode = "de"
+title = "RetroGames Blog"
+theme = "retrogames-blog"
+
+[pagination]
+  pagerSize = 10
+
+[taxonomies]
+  platform = "platforms"
+  genre    = "genres"
+
+[params]
+  blogName    = "Max.Backlog"
+  description = "Ein Blog über Spiele, die wir in unseren Erinnerungen immer noch gerne spielen."
+  authorName  = "Max"
+  authorBio   = "Ein paar Streiflichter auf Momente, in denen das Medium Videospiel noch auf der Suche nach neuen Genres und Gameplay-Mechaniken war, die heute ganz gewöhnlich erscheinen."
+  authorImage = "/images/max.jpg"
+  accentColor = "oklch(0.72 0.16 295)"
+  heroStyle   = "full"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

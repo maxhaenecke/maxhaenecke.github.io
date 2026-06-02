@@ -1,0 +1,12 @@
+<a href="{{ .RelPermalink }}" class="blog-row"
+   data-platform="{{ lower (.Params.platform | default "") }}"
+   data-genre="{{ lower (.Params.genre | default "") }}">
+  <span class="date">{{ .Date.Format "02.01.06" }}</span>
+  <span class="title">{{ .Title }}</span>
+  <span class="row-tags">
+    {{ with .Params.platform }}<span class="row-tag">{{ . }}</span>{{ end }}
+    {{ if and .Params.platform .Params.genre }}<span class="sep">·</span>{{ end }}
+    {{ with .Params.genre }}<span class="row-tag">{{ . }}</span>{{ end }}
+  </span>
+  <span class="arrow">→</span>
+</a>

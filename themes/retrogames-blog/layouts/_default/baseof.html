@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="{{ site.Language.Lang }}" data-theme="dark">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+<div class="blog">
+  {{ block "main" . }}{{ end }}
+</div>
+<script>
+function toggleTheme() {
+  var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('theme', next);
+}
+
+function toggleNav() {
+  var links  = document.getElementById('blog-nav-links');
+  var burger = document.getElementById('blog-nav-burger');
+  var isOpen = links.classList.toggle('is-open');
+  burger.classList.toggle('is-open', isOpen);
+  burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+</script>
+</body>
+</html>

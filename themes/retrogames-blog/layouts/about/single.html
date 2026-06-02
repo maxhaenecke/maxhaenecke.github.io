@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{ partial "nav.html" (dict "Site" .Site "current" "about") }}
+
+<div class="blog-about">
+  <div class="blog-about-portrait">
+    {{ with .Site.Params.authorImage }}
+    <img src="{{ . | relURL }}" alt="{{ $.Site.Params.authorName }}">
+    {{ end }}
+  </div>
+  <div class="blog-about-text">
+    <span class="label">Der Autor hier</span>
+    <h1>{{ .Site.Params.authorName }}</h1>
+    <p class="bio">{{ .Site.Params.authorBio }}</p>
+    <div class="blog-favorites">
+      {{ .Content }}
+      {{ $favs := where .Site.RegularPages "Params.favorite" true }}
+      {{ if $favs }}
+      <h2>Lieblingsspiele</h2>
+      <div class="fav-list">
+        {{ range $favs.ByDate.Reverse }}
+        <div class="fav-item">
+          <a class="fav-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <span class="fav-meta">
+            {{ with .Params.platform }}{{ . }}{{ end }}
+            {{ if and .Params.platform .Date }} · {{ end }}
+            {{ .Date.Format "2006" }}
+          </span>
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+{{ partial "footer.html" . }}
+{{ end }}

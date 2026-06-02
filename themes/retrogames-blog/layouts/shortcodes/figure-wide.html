@@ -1,0 +1,4 @@
+<figure class="is-wide">
+  <img src="{{ .Get "src" }}" alt="{{ .Get "alt" | default "" }}">
+  {{ with .Get "caption" }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>

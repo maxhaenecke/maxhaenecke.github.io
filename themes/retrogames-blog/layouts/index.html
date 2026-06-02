@@ -1,0 +1,50 @@
+{{ define "main" }}
+{{ $all := .Site.RegularPages.ByDate.Reverse }}
+{{ $heroPage := index (where $all ".Params.featured" true) 0 }}
+
+{{ $usedLinks := slice }}
+{{ with $heroPage }}{{ $usedLinks = $usedLinks | append .RelPermalink }}{{ end }}
+
+{{ $featuredRowPage := "" }}
+{{ range $all }}
+  {{ if and (not (in $usedLinks .RelPermalink)) (eq $featuredRowPage "") }}
+    {{ $featuredRowPage = . }}
+    {{ $usedLinks = $usedLinks | append .RelPermalink }}
+  {{ end }}
+{{ end }}
+
+{{ $cardPages := slice }}
+{{ range $all }}
+  {{ if and (not (in $usedLinks .RelPermalink)) (lt (len $cardPages) 3) }}
+    {{ $cardPages = $cardPages | append . }}
+  {{ end }}
+{{ end }}
+
+{{ partial "nav.html" (dict "Site" .Site "current" "home") }}
+
+{{ with $heroPage }}
+  {{ partial "hero.html" . }}
+{{ end }}
+
+<div class="blog-shell">
+  {{ with $featuredRowPage }}
+  <section class="blog-section">
+    <div class="blog-section-head"><h2>Empfohlen</h2></div>
+    {{ partial "featured-row.html" . }}
+  </section>
+  {{ end }}
+
+  {{ if $cardPages }}
+  <section class="blog-section">
+    <div class="blog-section-head"><h2>Aktuell</h2></div>
+    {{ partial "card-grid.html" (dict "articles" $cardPages) }}
+  </section>
+  {{ end }}
+
+  <div class="blog-pill-row">
+    <a href="/archive/" class="blog-pill">Alle Artikel</a>
+  </div>
+</div>
+
+{{ partial "footer.html" . }}
+{{ end }}
