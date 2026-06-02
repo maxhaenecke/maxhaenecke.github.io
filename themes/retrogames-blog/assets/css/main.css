@@ -82,6 +82,7 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "ss01" on, "ss02" on;
+  hyphens: auto;
 }
 
 /* ─────────────────────────────────────────────────────────── */
@@ -264,7 +265,7 @@ body {
   font-size: var(--t-caps);
   letter-spacing: var(--tk-caps);
   text-transform: uppercase;
-  color: #fff;
+  color: var(--fg-muted);
   line-height: 1;
 }
 .blog-hero-meta .sep {
