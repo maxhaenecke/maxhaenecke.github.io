@@ -3,8 +3,9 @@
 /* ─────────────────────────────────────────────────────────── */
 
 :root {
-  --font:      "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  --font:         "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+  --font-heading: "Playfair Display", Georgia, serif;
   --nav-height: 46px;
 
   --t-display: 72px;
@@ -104,6 +105,12 @@ body {
 .blog-row:hover .title { color: var(--accent); }
 .blog-card h2 a,
 .blog-row .title { transition: color 0.15s; }
+
+/* ─── headings ─── */
+.blog-hero h1,
+.blog-article-hero h1 {
+  font-family: var(--font-heading);
+}
 
 /* ─── placeholder image slots ─── */
 .ph {
@@ -1290,7 +1297,47 @@ a.fav-title:hover {
 }
 
 /* ─────────────────────────────────────────────────────────── */
-/* 14. Burger-Menü — unter 600px                              */
+/* 15. Animations                                              */
+/* ─────────────────────────────────────────────────────────── */
+
+/* ─── Teaser image zoom on hover ─── */
+.blog-card-image img,
+.blog-featured-image img {
+  transition: transform 0.5s cubic-bezier(0.25, 0, 0, 1);
+  will-change: transform;
+}
+.blog-card-image:hover img,
+.blog-featured-image:hover img {
+  transform: scale(1.06);
+}
+
+/* ─── Fade-in on scroll ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Reduced motion: disable all animations ─── */
+@media (prefers-reduced-motion: reduce) {
+  .blog-card-image img,
+  .blog-featured-image img {
+    transition: none;
+    will-change: auto;
+  }
+  .fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────── */
+/* 16. Burger-Menü — unter 600px                              */
 /* ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 600px) {

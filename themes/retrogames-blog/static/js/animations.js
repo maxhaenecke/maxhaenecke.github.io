@@ -1,0 +1,35 @@
+(function () {
+  'use strict';
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // ── Fade-in on scroll ────────────────────────────────────
+  if (!('IntersectionObserver' in window)) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var delay = el.dataset.fadeDelay || '0';
+      setTimeout(function () { el.classList.add('is-visible'); }, +delay);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+  function addFade(el, delay) {
+    el.classList.add('fade-in');
+    if (delay) el.dataset.fadeDelay = delay;
+    observer.observe(el);
+  }
+
+  document.querySelectorAll('.blog-section-head').forEach(function (el) { addFade(el, 0); });
+  document.querySelectorAll('.blog-featured').forEach(function (el) { addFade(el, 0); });
+  document.querySelectorAll('.blog-pill-row').forEach(function (el) { addFade(el, 0); });
+
+  document.querySelectorAll('.blog-grid').forEach(function (grid) {
+    grid.querySelectorAll('.blog-card').forEach(function (card, i) {
+      addFade(card, (i % 3) * 80);
+    });
+  });
+
+})();
