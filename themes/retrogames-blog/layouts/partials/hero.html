@@ -6,7 +6,6 @@
     <div class="blog-hero-fade"></div>
   </div>
   <div class="blog-hero-content">
-    {{ with .Params.tag }}<span class="blog-hero-tag">{{ . }}</span>{{ end }}
     <div class="blog-hero-meta">
       {{ with .Params.platform }}<span>{{ . }}</span>{{ end }}
       {{ if and .Params.platform .Params.genre }}<span class="sep">·</span>{{ end }}
@@ -16,6 +15,6 @@
     </div>
     <h1><a href="{{ .RelPermalink }}">{{ .Title }}</a></h1>
     {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
-    <a class="blog-hero-btn" href="{{ .RelPermalink }}">Weiterlesen</a>
+    <a class="blog-more" href="{{ .RelPermalink }}">Weiterlesen</a>
   </div>
 </section>

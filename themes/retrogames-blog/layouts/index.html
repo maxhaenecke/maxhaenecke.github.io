@@ -5,14 +5,6 @@
 {{ $usedLinks := slice }}
 {{ with $heroPage }}{{ $usedLinks = $usedLinks | append .RelPermalink }}{{ end }}
 
-{{ $featuredRowPage := "" }}
-{{ range $all }}
-  {{ if and (not (in $usedLinks .RelPermalink)) (eq $featuredRowPage "") }}
-    {{ $featuredRowPage = . }}
-    {{ $usedLinks = $usedLinks | append .RelPermalink }}
-  {{ end }}
-{{ end }}
-
 {{ $cardPages := slice }}
 {{ range $all }}
   {{ if and (not (in $usedLinks .RelPermalink)) (lt (len $cardPages) 3) }}
@@ -27,13 +19,6 @@
 {{ end }}
 
 <div class="blog-shell">
-  {{ with $featuredRowPage }}
-  <section class="blog-section">
-    <div class="blog-section-head"><h2>Empfohlen</h2></div>
-    {{ partial "featured-row.html" . }}
-  </section>
-  {{ end }}
-
   {{ if $cardPages }}
   <section class="blog-section">
     <div class="blog-section-head"><h2>Aktuell</h2></div>
