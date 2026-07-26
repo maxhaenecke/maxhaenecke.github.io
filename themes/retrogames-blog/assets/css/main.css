@@ -395,15 +395,16 @@ body {
   flex-shrink: 0;
 }
 .blog-meta .tag-genre {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
+  display: block;
   min-width: 0;
-  max-width: 100%;
+  overflow: hidden;
+  flex-shrink: 1;
+}
+.blog-meta .tag-genre span {
+  display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  flex-shrink: 1;
   hyphens: none;
 }
 .blog-meta .sep { color: var(--fg); }
