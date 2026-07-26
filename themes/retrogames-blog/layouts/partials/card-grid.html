@@ -7,7 +7,6 @@
       <img src="{{ . | relURL }}" alt="{{ $page.Title }}" loading="lazy">
       {{ end }}
     </a>
-    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
     <div class="blog-meta">
       {{ with .Params.platform }}<a href="/archive/?filter={{ lower . }}" class="tag">{{ . }}</a>{{ end }}
       {{ if and .Params.platform .Params.genre }}<span class="sep">·</span>{{ end }}
@@ -15,6 +14,7 @@
       <span class="sep">·</span>
       <span class="tag">{{ .Date.Format "02.01.06" }}</span>
     </div>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
     <p>{{ .Params.lead }}</p>
     <a class="blog-more" href="{{ .RelPermalink }}">Weiterlesen</a>
   </article>

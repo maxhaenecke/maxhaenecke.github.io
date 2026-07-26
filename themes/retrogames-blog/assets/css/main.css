@@ -12,6 +12,7 @@
   --t-h1:      42px;
   --t-h2:      32px;
   --t-h3:      24px;
+  --t-card-h2: 28px;
   --t-lead:    20px;
   --t-body:    18px;
   --t-small:   14px;
@@ -108,7 +109,8 @@ body {
 
 /* ─── headings ─── */
 .blog-hero h1,
-.blog-article-hero h1 {
+.blog-article-hero h1,
+.blog-card h2 {
   font-family: var(--font-heading);
 }
 
@@ -138,6 +140,7 @@ body {
   flex-wrap: wrap;
   padding: 16px 80px;
   background: var(--bg);
+  border-bottom: 1px solid var(--line);
   position: relative;
   z-index: 3;
 }
@@ -286,13 +289,6 @@ body {
   max-width: 42ch;
   margin: 0;
 }
-.blog-hero .blog-more {
-  color: #fff;
-}
-.blog-hero .blog-more:hover {
-  color: var(--accent);
-}
-
 /* ─────────────────────────────────────────────────────────── */
 /* 5. Home Sections                                            */
 /* ─────────────────────────────────────────────────────────── */
@@ -305,11 +301,15 @@ body {
 
 .blog-section-head {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
   margin-bottom: 32px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 16px;
+}
+.blog-section-head::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
 }
 .blog-section-head h2 {
   font-size: var(--t-caps);
@@ -318,6 +318,7 @@ body {
   text-transform: uppercase;
   color: var(--accent);
   margin: 0;
+  white-space: nowrap;
 }
 .blog-section-head .meta {
   font-size: var(--t-caps);
@@ -352,17 +353,18 @@ body {
   display: block;
 }
 .blog-card h2 {
-  font-size: var(--t-h3);
+  font-size: var(--t-card-h2);
   font-weight: 400;
   line-height: var(--lh-h3);
   letter-spacing: var(--tk-h3);
   margin: 0;
   text-wrap: pretty;
 }
+.blog-card .blog-meta + h2 { margin-top: -8px; }
 .blog-card p {
   color: var(--fg-muted);
   font-size: var(--t-body);
-  line-height: var(--lh-body);
+  line-height: 1.4;
 }
 
 /* ─── meta line ─── */
@@ -379,23 +381,21 @@ body {
 .blog-meta .sep { color: var(--fg); }
 
 /* "Weiterlesen" */
-.blog-more {
+a.blog-more {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-size: var(--t-small);
-  color: var(--fg);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: var(--tk-caps);
   width: fit-content;
-  transition: color 0.15s;
 }
 .blog-more::after {
   content: '→';
   display: inline-block;
   transform: translateX(0);
   transition: transform 0.2s ease;
-}
-.blog-more:hover {
-  color: var(--accent);
 }
 .blog-more:hover::after {
   transform: translateX(4px);
@@ -410,7 +410,6 @@ body {
   padding: 14px 32px;
   border: 1px solid var(--fg);
   color: var(--fg);
-  border-radius: 999px;
   font-size: var(--t-small);
   letter-spacing: 0.02em;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
@@ -498,7 +497,6 @@ body {
   font-size: var(--t-caps);
   letter-spacing: 0.04em;
   padding: 8px 14px;
-  border-radius: 999px;
   border: 1px solid var(--line-strong);
   color: var(--fg);
   background: transparent;
@@ -1172,6 +1170,7 @@ a.fav-title:hover {
     --t-h1:      28px;
     --t-h2:      24px;
     --t-h3:      22px;
+    --t-card-h2: 26px;
     --t-lead:    17px;
     --nav-height: 50px;
     --t-body:    16px;
@@ -1194,7 +1193,7 @@ a.fav-title:hover {
   .blog-hero-meta          { gap: 10px; flex-wrap: wrap; }
 
   .blog-section            { margin-top: 56px; }
-  .blog-section-head       { margin-bottom: 20px; padding-bottom: 12px; }
+  .blog-section-head       { margin-bottom: 20px; }
   .blog-pill-row           { margin-top: 56px; }
 
   .blog-about              { grid-template-columns: 1fr; gap: 24px; padding: 56px 20px 0; }
