@@ -110,7 +110,9 @@ body {
 /* ─── headings ─── */
 .blog-hero h1,
 .blog-article-hero h1,
-.blog-card h2 {
+.blog-card h2,
+.blog-article-body h2,
+.blog-pullquote {
   font-family: var(--font-heading);
 }
 
@@ -493,7 +495,7 @@ a.blog-more {
   margin-left: auto;
   min-width: 350px;
 }
-.blog-chip {
+button.blog-chip {
   font-size: var(--t-caps);
   letter-spacing: 0.04em;
   padding: 8px 14px;
@@ -695,16 +697,6 @@ a.blog-more {
   font-style: italic;
 }
 
-/* drop cap */
-.blog-article-body > p:first-of-type::first-letter {
-  float: left;
-  font-size: var(--t-display);
-  line-height: 0.85;
-  padding: 6px 12px 0 0;
-  color: var(--accent);
-  font-weight: 500;
-}
-
 .blog-article-body figure { margin: 2.6em 0; }
 .blog-article-body figure.is-wide {
   width: 1120px;
@@ -712,7 +704,7 @@ a.blog-more {
   margin-left: -224px;
   margin-right: -224px;
 }
-.blog-article-body figure img { width: 100%; display: block; }
+.blog-article-body figure img { width: 100%; display: block; border: 1px solid var(--line); }
 .blog-article-body figcaption {
   margin-top: 14px;
   font-size: var(--t-body);
@@ -749,10 +741,10 @@ a.blog-more {
   padding: 28px 0 28px 28px;
   border-left: 3px solid var(--accent);
   font-size: var(--t-h2);
-  line-height: var(--lh-heading);
+  line-height: 1.2;
   letter-spacing: var(--tk-heading);
   font-weight: 400;
-  font-style: normal;
+  font-style: italic;
   color: var(--fg);
   text-wrap: balance;
 }
