@@ -348,6 +348,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
 }
 .blog-card-image {
   aspect-ratio: 4 / 3;
@@ -388,7 +389,17 @@ body {
   text-transform: uppercase;
   color: var(--fg-faint);
 }
-.blog-meta .tag { color: var(--fg-muted); }
+.blog-meta .tag {
+  color: var(--fg-muted);
+  flex-shrink: 0;
+}
+.blog-meta .tag-genre {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
 .blog-meta .sep { color: var(--fg); }
 
 /* "Weiterlesen" */
@@ -638,6 +649,7 @@ button.blog-chip {
   flex-direction: column;
   gap: 28px;
   justify-content: center;
+  background: var(--bg-elev);
 }
 .blog-article-hero .crumb {
   font-size: var(--t-caps);
@@ -734,7 +746,6 @@ button.blog-chip {
   letter-spacing: var(--tk-caps);
   text-transform: uppercase;
   padding: 6px 14px;
-  border-radius: 999px;
   background: var(--accent-soft);
   color: var(--accent);
   transition: background 0.15s, color 0.15s;
