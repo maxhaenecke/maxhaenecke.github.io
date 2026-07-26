@@ -3,7 +3,7 @@ title: "Toy Story 2"
 date: 2026-05-12
 platform: "PS1"
 genre: "Platformer"
-lead: "Ein erfrischend gelungener 3D-Platformer traditioneller Machart. Bis zur Unendlichkeit! Und nboch viel weiter!"
+lead: "Ein erfrischend gelungener 3D-Platformer traditioneller Machart. Bis zur Unendlichkeit! Und noch viel weiter!"
 draft: false
 featured: false
 favorite: false

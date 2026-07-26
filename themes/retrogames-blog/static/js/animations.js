@@ -33,3 +33,42 @@
   });
 
 })();
+
+// ── Auto-hide nav: hides on scroll down, reappears on scroll up ──
+(function () {
+  'use strict';
+
+  var nav = document.querySelector('.blog-nav');
+  if (!nav) return;
+
+  function syncNavHeight() {
+    document.documentElement.style.setProperty('--nav-height', nav.offsetHeight + 'px');
+  }
+  syncNavHeight();
+  window.addEventListener('resize', syncNavHeight);
+
+  var lastY = window.scrollY;
+  var ticking = false;
+
+  function onScroll() {
+    var y = Math.max(window.scrollY, 0);
+
+    if (y <= nav.offsetHeight) {
+      nav.classList.remove('is-hidden');
+    } else if (y > lastY) {
+      nav.classList.add('is-hidden');
+    } else if (y < lastY) {
+      nav.classList.remove('is-hidden');
+    }
+
+    lastY = y;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+})();

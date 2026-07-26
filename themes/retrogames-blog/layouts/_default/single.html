@@ -46,7 +46,7 @@
 {{ end }}
 {{ if $related }}
 <div class="blog-related">
-  <h2>Ähnliche Artikel</h2>
+  <div class="blog-section-head"><h2>Ähnliche Artikel</h2></div>
   {{ partial "card-grid.html" (dict "articles" $related) }}
 </div>
 {{ end }}
