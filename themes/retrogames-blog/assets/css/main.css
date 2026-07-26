@@ -382,6 +382,7 @@ body {
 /* ─── meta line ─── */
 .blog-meta {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 8px;
   font-size: var(--t-caps);
@@ -394,7 +395,9 @@ body {
   flex-shrink: 0;
 }
 .blog-meta .tag-genre {
+  display: block;
   min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
