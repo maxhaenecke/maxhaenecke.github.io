@@ -160,7 +160,17 @@ body {
   align-items: center;
 }
 
-.blog-brand svg { display: block; height: 14px; width: auto; }
+.blog-brand svg { display: block; height: 14px; width: auto; flex-shrink: 0; }
+.blog-tagline {
+  margin-left: 14px;
+  padding-left: 14px;
+  border-left: 1px solid var(--line-strong);
+  font-size: var(--t-caps);
+  letter-spacing: var(--tk-caps);
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  white-space: nowrap;
+}
 .blog-nav-links {
   display: flex;
   align-items: center;
@@ -1273,6 +1283,7 @@ a.fav-title:hover {
 /* ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 600px) {
+  .blog-tagline { display: none; }
   .blog-nav-burger { display: flex; }
 
   /* Nav bleibt über dem Overlay */
