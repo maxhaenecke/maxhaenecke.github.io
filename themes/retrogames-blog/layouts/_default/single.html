@@ -1,55 +1,66 @@
 {{ define "main" }}
-{{ partial "nav.html" (dict "Site" .Site "current" "") }}
+{{ partial "nav.html" (dict "current" "") }}
 
+{{ $pg := partial "pg.html" (dict "page" . "sep" " / ") }}
 
-<div class="blog-article-hero">
-  <div class="blog-article-hero__image{{ if not .Params.image }} ph{{ end }}">
-    {{ with .Params.image }}
-    <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="eager">
-    {{ end }}
-  </div>
-  <div class="blog-article-hero__text">
-    <h1>{{ .Title }}</h1>
-    {{ with .Params.lead }}<p class="lead">{{ . }}</p>{{ end }}
-    <div class="article-meta">
-      {{ with .Params.platform }}<span>{{ . }}</span>{{ end }}
-      {{ if and .Params.platform .Params.genre }}<span class="meta-sep">·</span>{{ end }}
-      {{ with .Params.genre }}<span>{{ . }}</span>{{ end }}
-      {{ if or .Params.platform .Params.genre }}<span class="meta-sep">·</span>{{ end }}
+<main class="main">
+<article class="article">
+  <header class="article-head grid pad">
+    <h1 class="article-title t-display">{{ .Title }}</h1>
+    <div class="article-meta t-meta">
+      {{ with $pg }}<span>{{ . }}</span><span class="inline-only" aria-hidden="true">/</span>{{ end }}
       <span>{{ .Date.Format "02.01.06" }}</span>
     </div>
-  </div>
-</div>
+    {{ with .Params.lead }}<p class="article-lead t-title">{{ . }}</p>{{ end }}
+    <div class="article-cover media media--color{{ if not .Params.image }} is-ph{{ end }}">
+      {{- with .Params.image }}
+      <img src="{{ . | relURL }}" alt="{{ $.Title }}" loading="eager"{{ with $.Params.image_position }} style="object-position: {{ . | safeCSS }}"{{ end }}>
+      {{- end }}
+    </div>
+  </header>
 
-<article class="blog-article-body">
-  {{ .Content }}
+  <div class="article-body grid pad">
+    {{ .Content }}
 
-  {{ if or .Params.platform .Params.genre }}
-  <div class="article-tag-footer">
-    {{ with .Params.platform }}
-    <a href="{{ printf "/archive/" | relURL }}?filter={{ lower . }}" class="article-footer-tag">{{ . }}</a>
-    {{ end }}
-    {{ with .Params.genre }}
-    <a href="{{ printf "/archive/" | relURL }}?filter={{ lower . }}" class="article-footer-tag">{{ . }}</a>
+    {{ if or .Params.platform .Params.genre }}
+    <div class="tags-block sub">
+      <span class="side-label t-meta">Schlagworte</span>
+      <div class="tags t-ui">
+        {{ with .Params.platform }}<a href="/?filter={{ urlize . }}#archiv">{{ . }}</a>{{ end }}
+        {{ with .Params.genre }}<a href="/?filter={{ urlize . }}#archiv">{{ . }}</a>{{ end }}
+      </div>
+    </div>
     {{ end }}
   </div>
+
+  {{/* Nächstes Essay: nächstälterer Beitrag, nach dem ältesten wieder der neueste */}}
+  {{ $all := (where site.RegularPages "Section" "archive").ByDate.Reverse }}
+  {{ $next := false }}
+  {{ if gt (len $all) 1 }}
+    {{ $idx := -1 }}
+    {{ range $i, $p := $all }}{{ if eq $p.RelPermalink $.RelPermalink }}{{ $idx = $i }}{{ end }}{{ end }}
+    {{ if ge $idx 0 }}
+      {{ $next = index $all (mod (add $idx 1) (len $all)) }}
+    {{ end }}
+  {{ end }}
+  {{ with $next }}
+  <a href="{{ .RelPermalink }}" class="next grid card">
+    <span class="next-label t-meta">Nächstes Essay</span>
+    <div class="next-img media{{ if not .Params.image }} is-ph{{ end }}">
+      {{- with .Params.image }}
+      <img src="{{ . | relURL }}" alt="" loading="lazy"{{ with $next.Params.image_position }} style="object-position: {{ . | safeCSS }}"{{ end }}>
+      {{- end }}
+    </div>
+    <div class="next-text">
+      {{ with partial "pg.html" (dict "page" . "sep" " / ") }}<span class="t-meta">{{ . }}</span>{{ end }}
+      <span class="next-title">{{ .Title }}</span>
+      {{ with .Params.lead }}<p class="teaser-lead">{{ . }}</p>{{ end }}
+      <span class="more t-ui" aria-hidden="true">Essay lesen <span class="arrow">→</span></span>
+    </div>
+  </a>
   {{ end }}
 </article>
+</main>
 
-{{ $current := . }}
-{{ $candidates := where .Site.RegularPages ".Params.platform" .Params.platform | first 10 }}
-{{ $related := slice }}
-{{ range $candidates }}
-  {{ if and (ne .RelPermalink $current.RelPermalink) (lt (len $related) 3) }}
-    {{ $related = $related | append . }}
-  {{ end }}
-{{ end }}
-{{ if $related }}
-<div class="blog-related">
-  <div class="blog-section-head"><h2>Ähnliche Artikel</h2></div>
-  {{ partial "card-grid.html" (dict "articles" $related) }}
-</div>
-{{ end }}
-
-{{ partial "footer.html" . }}
+{{ partial "footer.html" (dict "current" "") }}
 {{ end }}

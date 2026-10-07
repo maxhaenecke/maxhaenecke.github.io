@@ -1,37 +1,33 @@
 {{ define "main" }}
-{{ partial "nav.html" (dict "Site" .Site "current" "about") }}
+{{ partial "nav.html" (dict "current" "about") }}
 
-<div class="blog-about">
-  <div class="blog-about-portrait">
-    {{ with .Site.Params.authorImage }}
-    <img src="{{ . | relURL }}" alt="{{ $.Site.Params.authorName }}">
+<main class="main">
+  <div class="about grid pad">
+    <span class="about-label t-meta accent">Der Autor hier</span>
+    <h1 class="about-title t-display">{{ site.Params.authorName }}</h1>
+    <div class="about-portrait media hov-color">
+      {{- with site.Params.authorImage }}
+      <img src="{{ . | relURL }}" alt="{{ site.Params.authorName }}">
+      {{- end }}
+    </div>
+    <div class="about-text">
+      {{ with site.Params.authorBio }}<p class="about-intro t-title">{{ . }}</p>{{ end }}
+      <div class="about-body">{{ .Content }}</div>
+    </div>
+
+    {{ $favs := where (where site.RegularPages "Section" "archive") "Params.favorite" true }}
+    {{ with $favs }}
+    <section class="favs sub" aria-label="Lieblingsspiele">
+      <span class="side-label side-label--wide t-meta">Lieblingsspiele</span>
+      <div class="favs-list">
+        {{- range $i, $p := .ByDate.Reverse }}
+        {{ partial "archive-row.html" (dict "page" $p "num" (add $i 1)) }}
+        {{- end }}
+      </div>
+    </section>
     {{ end }}
   </div>
-  <div class="blog-about-text">
-    <span class="label">Der Autor hier</span>
-    <h1>{{ .Site.Params.authorName }}</h1>
-    <p class="bio">{{ .Site.Params.authorBio }}</p>
-    <div class="blog-favorites">
-      {{ .Content }}
-      {{ $favs := where .Site.RegularPages "Params.favorite" true }}
-      {{ if $favs }}
-      <h2>Lieblingsspiele</h2>
-      <div class="fav-list">
-        {{ range $favs.ByDate.Reverse }}
-        <div class="fav-item">
-          <a class="fav-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
-          <span class="fav-meta">
-            {{ with .Params.platform }}{{ . }}{{ end }}
-            {{ if and .Params.platform .Date }} · {{ end }}
-            {{ .Date.Format "2006" }}
-          </span>
-        </div>
-        {{ end }}
-      </div>
-      {{ end }}
-    </div>
-  </div>
-</div>
+</main>
 
-{{ partial "footer.html" . }}
+{{ partial "footer.html" (dict "current" "about") }}
 {{ end }}

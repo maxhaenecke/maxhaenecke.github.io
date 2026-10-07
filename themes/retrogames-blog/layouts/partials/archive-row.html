@@ -1,12 +1,16 @@
-<a href="{{ .RelPermalink }}" class="blog-row"
-   data-platform="{{ lower (.Params.platform | default "") }}"
-   data-genre="{{ lower (.Params.genre | default "") }}">
-  <span class="date">{{ .Date.Format "02.01.06" }}</span>
-  <span class="title">{{ .Title }}</span>
-  <span class="row-tags">
-    {{ with .Params.platform }}<span class="row-tag">{{ . }}</span>{{ end }}
-    {{ if and .Params.platform .Params.genre }}<span class="sep">·</span>{{ end }}
-    {{ with .Params.genre }}<span class="row-tag">{{ . }}</span>{{ end }}
-  </span>
-  <span class="arrow">→</span>
+{{- /*
+  Listenzeile für Archiv und Lieblingsspiele.
+  Aufruf: partial "archive-row.html" (dict "page" . "num" 1 "reveal" true)
+*/ -}}
+{{- $p := .page -}}
+{{- $meta := slice -}}
+{{- with $p.Params.platform }}{{ $meta = $meta | append . }}{{ end -}}
+{{- with $p.Params.genre }}{{ $meta = $meta | append . }}{{ end -}}
+{{- $meta = $meta | append ($p.Date.Format "2006") -}}
+<a href="{{ $p.RelPermalink }}" class="row"
+   data-platform="{{ urlize ($p.Params.platform | default "") }}"
+   data-genre="{{ urlize ($p.Params.genre | default "") }}"{{ if .reveal }} data-reveal{{ end }}>
+  <span class="row-num t-meta">{{ printf "%02d" .num }}</span>
+  <span class="row-title t-title">{{ $p.Title }}</span>
+  <span class="row-meta t-meta">{{ delimit $meta " · " }}</span>
 </a>

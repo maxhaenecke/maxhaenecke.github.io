@@ -1,1 +1,1 @@
-<blockquote class="blog-pullquote">{{ .Inner }}</blockquote>
+<blockquote class="pullquote">{{ trim .Inner "\n " | safeHTML }}</blockquote>

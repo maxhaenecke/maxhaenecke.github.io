@@ -1,35 +1,86 @@
 {{ define "main" }}
-{{ $all := .Site.RegularPages.ByDate.Reverse }}
-{{ $heroPage := index (where $all ".Params.featured" true) 0 }}
+{{ $all := (where site.RegularPages "Section" "archive").ByDate.Reverse }}
+{{ $heroPage := index (where $all "Params.featured" true) 0 }}
+{{ $teasers := first 3 (where $all "Params.featured" "!=" true) }}
 
-{{ $usedLinks := slice }}
-{{ with $heroPage }}{{ $usedLinks = $usedLinks | append .RelPermalink }}{{ end }}
-
-{{ $cardPages := slice }}
+{{/* Filter: Plattformen, dann Genres – eindeutig, in Reihenfolge des ersten Vorkommens (neueste zuerst) */}}
+{{ $platforms := slice }}
+{{ $genres    := slice }}
 {{ range $all }}
-  {{ if and (not (in $usedLinks .RelPermalink)) (lt (len $cardPages) 3) }}
-    {{ $cardPages = $cardPages | append . }}
-  {{ end }}
+  {{ with .Params.platform }}{{ if not (in $platforms .) }}{{ $platforms = $platforms | append . }}{{ end }}{{ end }}
+  {{ with .Params.genre }}{{ if not (in $genres .) }}{{ $genres = $genres | append . }}{{ end }}{{ end }}
+{{ end }}
+{{ $filters := slice (dict "label" "Alle" "slug" "alle") }}
+{{ range $platforms | append $genres }}
+  {{ $filters = $filters | append (dict "label" . "slug" (urlize .)) }}
 {{ end }}
 
-{{ partial "nav.html" (dict "Site" .Site "current" "home") }}
+{{ partial "nav.html" (dict "current" "home") }}
 
-{{ with $heroPage }}
-  {{ partial "hero.html" . }}
-{{ end }}
+<main class="main">
+  {{ with $heroPage }}{{ partial "hero.html" . }}{{ end }}
 
-<div class="blog-shell">
-  {{ if $cardPages }}
-  <section class="blog-section">
-    <div class="blog-section-head"><h2>Aktuelle Artikel</h2></div>
-    {{ partial "card-grid.html" (dict "articles" $cardPages) }}
+  {{ with $teasers }}{{ partial "card-grid.html" (dict "articles" .) }}{{ end }}
+
+  <section class="archive pad" id="archiv" aria-label="Archiv">
+    <div class="archive-grid grid">
+      <div class="filters-wrap" data-reveal>
+        <div class="filters t-ui">
+          {{- range $i, $f := $filters }}
+          {{- if $i }}<span class="filter-sep" aria-hidden="true">·</span>{{ end }}
+          <a href="/?filter={{ $f.slug }}#archiv" class="filter{{ if eq $f.slug "alle" }} is-active{{ end }}" data-filter="{{ $f.slug }}"><span class="filter-dot" aria-hidden="true"></span>{{ $f.label }}</a>
+          {{- end }}
+        </div>
+      </div>
+      <div class="archive-list" id="archive-list">
+        {{- $count := len $all }}
+        {{- range $i, $p := $all }}
+        {{ partial "archive-row.html" (dict "page" $p "num" (sub $count $i) "reveal" true) }}
+        {{- end }}
+      </div>
+    </div>
   </section>
-  {{ end }}
+</main>
 
-  <div class="blog-pill-row">
-    <a href="/archive/" class="blog-pill">Alle Artikel</a>
-  </div>
-</div>
+{{ partial "footer.html" (dict "current" "home") }}
 
-{{ partial "footer.html" . }}
+<script>
+(function () {
+  var archive = document.getElementById('archiv');
+  var rows    = archive.querySelectorAll('.row');
+  var filters = archive.querySelectorAll('.filter[data-filter]');
+
+  function apply(slug, push) {
+    var known = Array.prototype.some.call(filters, function (f) { return f.dataset.filter === slug; });
+    if (!known) slug = 'alle';
+    filters.forEach(function (f) {
+      var active = f.dataset.filter === slug;
+      f.classList.toggle('is-active', active);
+      if (active) f.setAttribute('aria-current', 'true'); else f.removeAttribute('aria-current');
+    });
+    rows.forEach(function (row) {
+      var match = slug === 'alle' || row.dataset.platform === slug || row.dataset.genre === slug;
+      row.hidden = !match;
+    });
+    if (push) {
+      var url = slug === 'alle' ? '/#archiv' : '/?filter=' + encodeURIComponent(slug) + '#archiv';
+      history.replaceState(null, '', url);
+    }
+  }
+
+  filters.forEach(function (f) {
+    f.addEventListener('click', function (e) {
+      e.preventDefault();
+      apply(f.dataset.filter, true);
+      archive.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  var initial = new URLSearchParams(location.search).get('filter');
+  if (initial !== null) {
+    apply(initial, false);
+    archive.scrollIntoView({ block: 'start' });
+  }
+}());
+</script>
 {{ end }}

@@ -16,8 +16,8 @@ theme = "retrogames-blog"
   authorName  = "Max"
   authorBio   = "Ein paar Streiflichter auf Momente, in denen das Medium Videospiel noch auf der Suche nach neuen Genres und Gameplay-Mechaniken war, die heute ganz gewöhnlich erscheinen."
   authorImage = "/images/max.jpg"
-  accentColor = "oklch(0.72 0.16 295)"
-  heroStyle   = "full"
+  accentColor = "#fa7527"
+  footerQuote = "Ein paar Streiflichter auf Momente, in denen das Medium Videospiel noch auf der Suche nach neuen Genres und Gameplay-Mechaniken war."
 
 [markup]
   [markup.goldmark]

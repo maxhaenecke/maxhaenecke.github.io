@@ -1,4 +1,4 @@
-<div class="blog-hinweis">
-  {{ with .Get "label" }}<div class="blog-hinweis__label"><span>{{ . }}</span></div>{{ end }}
-  <div class="blog-hinweis__body">{{ .Inner | markdownify }}</div>
-</div>
+<aside class="note sub">
+  {{- with .Get "label" }}<span class="side-label t-meta accent">{{ . }}</span>{{ end }}
+  <div class="note-text">{{ .Inner | markdownify }}</div>
+</aside>

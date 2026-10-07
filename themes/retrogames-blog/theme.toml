@@ -1,7 +1,7 @@
 name        = "retrogames-blog"
 license     = "MIT"
-description = "Retro Gaming Blog Theme für Hugo"
-tags        = ["blog", "gaming", "dark"]
+description = "Retro Gaming Blog Theme für Hugo – Coffeetable-Book-Redesign"
+tags        = ["blog", "gaming", "editorial", "dark-mode"]
 min_version = "0.120.0"
 
 [author]

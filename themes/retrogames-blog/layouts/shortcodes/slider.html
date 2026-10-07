@@ -1,5 +1,5 @@
 {{- /*
-  slider — Image-Slider mit Dots, Pfeilen und Caption
+  slider — Galerie mit Pfeilen, Zähler und Caption (endlos, unter 1100px wischbar)
   Parameter:
     id  (optional) Eindeutige ID. Default: slider-<Ordinal>
 
@@ -18,62 +18,44 @@
 {{- $total := len $items -}}
 
 {{- if eq $total 0 -}}
-  <!-- blog-slider: keine Slides gefunden ({{ $id }}) -->
+  <!-- slider: keine Slides gefunden ({{ $id }}) -->
 {{- else -}}
-<figure class="blog-slider"
-        data-slider-id="{{ $id }}"
-        role="group"
-        aria-roledescription="Bild-Slider"
-        aria-label="Bild-Slider mit {{ $total }} Bildern"
-        tabindex="0">
-
-  <div class="blog-slider__stage" id="{{ $id }}-stage" data-stage>
-    {{- range $i, $it := $items }}
-    <div class="blog-slider__slide"
-         data-index="{{ $i }}"
-         data-slide-caption="{{ $it.caption }}"
-         id="{{ $id }}-slide-{{ add $i 1 }}"
-         role="group"
-         aria-roledescription="Bild"
-         aria-label="Bild {{ add $i 1 }} von {{ $total }}">
-      <img src="{{ $it.src }}"
-           alt="{{ $it.alt }}"
-           {{ with $it.w }}width="{{ . }}"{{ end }}
-           {{ with $it.h }}height="{{ . }}"{{ end }}
-           loading="lazy"
-           decoding="async">
-    </div>
-    {{- end }}
-  </div>
-
-  <div class="blog-slider__bar">
-    <button class="blog-slider__arrow" type="button" data-prev
-            aria-controls="{{ $id }}-stage"
-            aria-label="Vorheriges Bild">←</button>
-
-    <div class="blog-slider__dots" role="tablist" aria-label="Bild-Auswahl">
+<div class="gallery sub"
+     data-gallery
+     role="group"
+     aria-roledescription="Galerie"
+     aria-label="Galerie mit {{ $total }} Bildern"
+     tabindex="0">
+  <div class="gallery-stage media" id="{{ $id }}-stage" data-stage>
+    <div class="gallery-track" data-track>
       {{- range $i, $it := $items }}
-      <button class="blog-slider__dot{{ if eq $i 0 }} is-active{{ end }}"
-              type="button" role="tab"
-              data-index="{{ $i }}"
-              aria-controls="{{ $id }}-slide-{{ add $i 1 }}"
-              aria-label="Bild {{ add $i 1 }} von {{ $total }}"
-              aria-selected="{{ if eq $i 0 }}true{{ else }}false{{ end }}"></button>
+      <div class="gallery-slide"
+           data-caption="{{ $it.caption }}"
+           role="group"
+           aria-roledescription="Bild"
+           aria-label="Bild {{ add $i 1 }} von {{ $total }}"{{ if $i }} aria-hidden="true"{{ end }}>
+        <img src="{{ $it.src }}"
+             alt="{{ $it.alt }}"
+             {{ with $it.w }}width="{{ . }}"{{ end }}
+             {{ with $it.h }}height="{{ . }}"{{ end }}
+             draggable="false"
+             decoding="async">
+      </div>
       {{- end }}
     </div>
-
-    <button class="blog-slider__arrow" type="button" data-next
-            aria-controls="{{ $id }}-stage"
-            aria-label="Nächstes Bild">→</button>
   </div>
-
-  {{ with (index $items 0).caption }}
-  <figcaption class="blog-slider__caption" aria-live="polite">
-    <span data-caption>{{ . }}</span>
-  </figcaption>
-  {{ end }}
-
-</figure>
+  <div class="gallery-cap">
+    <span class="t-meta accent">Galerie</span>
+    <span class="t-caption" data-caption-out aria-live="polite">{{ (index $items 0).caption }}</span>
+  </div>
+  {{- if gt $total 1 }}
+  <div class="gallery-ctl">
+    <button class="gallery-btn" type="button" data-prev aria-controls="{{ $id }}-stage" aria-label="Vorheriges Bild">←</button>
+    <span class="gallery-pos" data-pos>01 / {{ printf "%02d" $total }}</span>
+    <button class="gallery-btn" type="button" data-next aria-controls="{{ $id }}-stage" aria-label="Nächstes Bild">→</button>
+  </div>
+  {{- end }}
+</div>
 {{- end }}
 
 {{/* JS einmalig pro Seite */}}
@@ -83,102 +65,76 @@
 (function () {
   'use strict';
 
-  function initSlider(slider) {
-    var stage     = slider.querySelector('[data-stage]');
-    var slides    = Array.prototype.slice.call(slider.querySelectorAll('.blog-slider__slide'));
-    var dots      = Array.prototype.slice.call(slider.querySelectorAll('.blog-slider__dot'));
-    var prevBtn   = slider.querySelector('[data-prev]');
-    var nextBtn   = slider.querySelector('[data-next]');
-    var captionEl = slider.querySelector('[data-caption]');
-    var total     = slides.length;
-    if (!stage || total === 0) return;
+  var swipeMq = window.matchMedia('(max-width: 1099px)');
 
-    var captions = slides.map(function (s) {
-      return s.getAttribute('data-slide-caption') || '';
-    });
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
 
-    var activeIndex = 0;
-    var isProgrammaticScroll = false;
+  function initGallery(g) {
+    var stage   = g.querySelector('[data-stage]');
+    var track   = g.querySelector('[data-track]');
+    var slides  = Array.prototype.slice.call(g.querySelectorAll('.gallery-slide'));
+    var capOut  = g.querySelector('[data-caption-out]');
+    var posOut  = g.querySelector('[data-pos]');
+    var total   = slides.length;
+    if (!stage || !track || total < 2) return;
 
-    function setActive(i) {
-      activeIndex = i;
-      dots.forEach(function (d, di) {
-        var active = di === i;
-        d.classList.toggle('is-active', active);
-        d.setAttribute('aria-selected', active ? 'true' : 'false');
-      });
-      if (captionEl) captionEl.textContent = captions[i];
-      if (prevBtn) prevBtn.disabled = i === 0;
-      if (nextBtn) nextBtn.disabled = i === total - 1;
-    }
+    var active = 0;
+    var dragging = false, startX = 0, dx = 0, width = 0, pointerId = null;
 
-    function indexFromScroll() {
-      var w = stage.clientWidth;
-      return w === 0 ? activeIndex : Math.round(stage.scrollLeft / w);
-    }
-
-    function waitForScrollEnd(target, done) {
-      var lastLeft = stage.scrollLeft;
-      var stableFrames = 0;
-      var maxFrames = 90;
-      function tick() {
-        if (--maxFrames <= 0) { done(); return; }
-        var left = stage.scrollLeft;
-        if (Math.abs(left - target) < 1) {
-          done();
-        } else if (Math.abs(left - lastLeft) < 0.5) {
-          if (++stableFrames > 4) done();
-          else requestAnimationFrame(tick);
-        } else {
-          stableFrames = 0;
-          lastLeft = left;
-          requestAnimationFrame(tick);
-        }
-      }
-      requestAnimationFrame(tick);
+    function render() {
+      track.style.transform = 'translateX(calc(' + (-active * 100) + '% + ' + dx + 'px))';
     }
 
     function goTo(i) {
-      if (i < 0) i = 0;
-      if (i > total - 1) i = total - 1;
-      setActive(i);
-      var target = i * stage.clientWidth;
-      isProgrammaticScroll = true;
-      stage.style.scrollSnapType = 'none';
-      stage.scrollTo({ left: target, behavior: 'smooth' });
-      waitForScrollEnd(target, function () {
-        stage.scrollLeft = target;
-        stage.style.scrollSnapType = '';
-        isProgrammaticScroll = false;
+      active = (i + total) % total;
+      dx = 0;
+      slides.forEach(function (s, si) {
+        if (si === active) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
       });
+      if (capOut) capOut.textContent = slides[active].getAttribute('data-caption') || '';
+      if (posOut) posOut.textContent = pad(active + 1) + ' / ' + pad(total);
+      render();
     }
 
-    var ticking = false;
-    stage.addEventListener('scroll', function () {
-      if (isProgrammaticScroll || ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        var i = indexFromScroll();
-        if (i !== activeIndex) setActive(i);
-        ticking = false;
-      });
-    }, { passive: true });
-
-    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(activeIndex - 1); });
-    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(activeIndex + 1); });
-    dots.forEach(function (d, i) {
-      d.addEventListener('click', function () { goTo(i); });
-    });
-    slider.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft')       { e.preventDefault(); goTo(activeIndex - 1); }
-      else if (e.key === 'ArrowRight') { e.preventDefault(); goTo(activeIndex + 1); }
+    g.querySelector('[data-prev]').addEventListener('click', function () { goTo(active - 1); });
+    g.querySelector('[data-next]').addEventListener('click', function () { goTo(active + 1); });
+    g.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft')       { e.preventDefault(); goTo(active - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); goTo(active + 1); }
     });
 
-    setActive(0);
+    stage.addEventListener('pointerdown', function (e) {
+      if (!swipeMq.matches || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      dragging = true;
+      pointerId = e.pointerId;
+      startX = e.clientX;
+      dx = 0;
+      width = stage.offsetWidth;
+      stage.setPointerCapture(pointerId);
+      stage.classList.add('is-dragging');
+    });
+    stage.addEventListener('pointermove', function (e) {
+      if (!dragging || e.pointerId !== pointerId) return;
+      dx = e.clientX - startX;
+      render();
+    });
+    function end(e) {
+      if (!dragging || e.pointerId !== pointerId) return;
+      dragging = false;
+      stage.classList.remove('is-dragging');
+      var threshold = Math.min(60, width * 0.15);
+      if (dx <= -threshold)     goTo(active + 1);
+      else if (dx >= threshold) goTo(active - 1);
+      else { dx = 0; render(); }
+    }
+    stage.addEventListener('pointerup', end);
+    stage.addEventListener('pointercancel', end);
+
+    goTo(0);
   }
 
   function boot() {
-    document.querySelectorAll('.blog-slider').forEach(initSlider);
+    document.querySelectorAll('[data-gallery]').forEach(initGallery);
   }
 
   if (document.readyState === 'loading') {

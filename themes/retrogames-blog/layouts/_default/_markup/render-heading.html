@@ -1,0 +1,6 @@
+{{- /* H2 im Artikel: Nummer in der Randspalte (per CSS-Counter), Überschrift in der Textspalte */ -}}
+{{- if eq .Level 2 -}}
+<div class="h2-wrap sub"><span class="h2-num t-meta" aria-hidden="true"></span><h2 id="{{ .Anchor }}" class="t-title">{{ .Text }}</h2></div>
+{{- else -}}
+<h{{ .Level }} id="{{ .Anchor }}">{{ .Text }}</h{{ .Level }}>
+{{- end -}}

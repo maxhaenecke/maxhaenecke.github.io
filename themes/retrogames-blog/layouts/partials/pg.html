@@ -1,0 +1,8 @@
+{{- /*
+  Plattform und Genre einer Seite, verbunden mit einem Trenner.
+  Aufruf: partial "pg.html" (dict "page" . "sep" " / ")
+*/ -}}
+{{- $parts := slice -}}
+{{- with .page.Params.platform }}{{ $parts = $parts | append . }}{{ end -}}
+{{- with .page.Params.genre }}{{ $parts = $parts | append . }}{{ end -}}
+{{- return delimit $parts (.sep | default " / ") -}}

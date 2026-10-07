@@ -1,28 +1,62 @@
 <!doctype html>
-<html lang="{{ site.Language.Lang }}" data-theme="dark">
+<html lang="{{ site.LanguageCode | default site.Language.Lang }}" data-theme="light">
 <head>
   {{ partial "head.html" . }}
 </head>
 <body>
-<div class="blog">
+<div class="page">
   {{ block "main" . }}{{ end }}
 </div>
 <script src="/js/animations.js" defer></script>
 <script>
+function syncThemeToggles() {
+  var dark  = document.documentElement.dataset.theme === 'dark';
+  var label = dark ? 'Hellen Modus einschalten' : 'Dunkelmodus einschalten';
+  document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('title', label);
+  });
+}
+
 function toggleTheme() {
   var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
-  localStorage.setItem('theme', next);
+  try { localStorage.setItem('theme', next); } catch (e) {}
+  syncThemeToggles();
 }
 
-function toggleNav() {
-  var links  = document.getElementById('blog-nav-links');
+function toggleNav(force) {
+  var menu   = document.getElementById('blog-nav-links');
   var burger = document.getElementById('blog-nav-burger');
-  var isOpen = links.classList.toggle('is-open');
+  if (!menu || !burger) return;
+  var isOpen = typeof force === 'boolean' ? force : !menu.classList.contains('is-open');
+  menu.classList.toggle('is-open', isOpen);
   burger.classList.toggle('is-open', isOpen);
   burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  burger.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
   document.body.style.overflow = isOpen ? 'hidden' : '';
 }
+
+(function () {
+  syncThemeToggles();
+
+  document.querySelectorAll('#blog-nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () { toggleNav(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') toggleNav(false);
+  });
+  var wide = window.matchMedia('(min-width: 700px)');
+  var onWide = function () { if (wide.matches) toggleNav(false); };
+  if (wide.addEventListener) wide.addEventListener('change', onWide);
+
+  // Startseite mit ?filter= → „Archiv“ statt „Home“ aktiv
+  if (document.getElementById('archiv') && new URLSearchParams(location.search).has('filter')) {
+    document.querySelectorAll('[data-nav]').forEach(function (a) {
+      a.classList.toggle('is-active', a.dataset.nav === 'archive');
+    });
+  }
+}());
 </script>
 </body>
 </html>

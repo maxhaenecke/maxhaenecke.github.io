@@ -1,11 +1,16 @@
 {{ define "main" }}
-{{ partial "nav.html" (dict "Site" .Site "current" "") }}
+{{ partial "nav.html" (dict "current" "") }}
 
-<div class="blog-404">
-  <span class="blog-404-code">404</span>
-  <p>Sorry, nichts los hier.</p>
-  <a href="/" class="blog-pill">Zum Blog</a>
-</div>
+<main class="main">
+  <div class="notfound grid pad">
+    <span class="notfound-label t-meta accent">Fehler</span>
+    <h1 class="notfound-title t-display">404</h1>
+    <div class="notfound-text">
+      <p class="t-title">Sorry, nichts los hier.</p>
+      <a href="/" class="more more--strong t-ui">Zum Blog <span class="arrow">→</span></a>
+    </div>
+  </div>
+</main>
 
-{{ partial "footer.html" . }}
+{{ partial "footer.html" (dict "current" "") }}
 {{ end }}
