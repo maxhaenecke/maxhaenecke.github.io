@@ -1077,15 +1077,20 @@ button { font: inherit; color: inherit; }
 
 /* ── Scroll-Reveal (Startseite) ─────────────────────────────────────────── */
 
-[data-reveal] {
-  transition: opacity .7s ease, transform .7s var(--ease);
-}
-.row[data-reveal] {
-  transition: color .2s, opacity .7s ease, transform .7s var(--ease);
-}
+/* Versteckt wird sofort (ohne Ausblenden beim Laden), animiert wird nur
+   das Einblenden. Eigene Ebene nur währenddessen – sonst zeichnet Safari
+   (macOS) die gefilterten Bilder in jedem Frame neu und die Bewegung ruckelt. */
 .js .reveal-pending {
   opacity: 0;
   transform: translateY(24px);
+  will-change: opacity, transform;
+}
+.js .is-revealing {
+  transition: opacity .7s ease, transform .7s var(--ease);
+  will-change: opacity, transform;
+}
+.js .row.is-revealing {
+  transition: color .2s, opacity .7s ease, transform .7s var(--ease);
 }
 
 @media (prefers-reduced-motion: reduce) {

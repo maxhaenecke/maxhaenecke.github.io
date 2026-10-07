@@ -22,12 +22,15 @@
       if (!entry.isIntersecting) return;
       var el = entry.target;
       observer.unobserve(el);
-      el.style.transitionDelay = (i++ * 90) + 'ms';
+      var delay = i++ * 90;
+      el.style.transitionDelay = delay + 'ms';
+      el.classList.add('is-revealing');
       el.classList.remove('reveal-pending');
-      el.addEventListener('transitionend', function clear() {
+      // Nach Ende der Animation (0,7 s + Versatz) Ebene und Verzögerung abräumen
+      setTimeout(function () {
         el.style.transitionDelay = '';
-        el.removeEventListener('transitionend', clear);
-      });
+        el.classList.remove('is-revealing');
+      }, delay + 800);
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
 
