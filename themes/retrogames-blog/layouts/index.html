@@ -72,7 +72,7 @@
     f.addEventListener('click', function (e) {
       e.preventDefault();
       apply(f.dataset.filter, true);
-      archive.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      archive.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     });
   });
 

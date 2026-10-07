@@ -50,10 +50,25 @@ function toggleNav(force) {
   var onWide = function () { if (wide.matches) toggleNav(false); };
   if (wide.addEventListener) wide.addEventListener('change', onWide);
 
+  var archive = document.getElementById('archiv');
+
   // Startseite mit ?filter= → „Archiv“ statt „Home“ aktiv
-  if (document.getElementById('archiv') && new URLSearchParams(location.search).has('filter')) {
+  if (archive && new URLSearchParams(location.search).has('filter')) {
     document.querySelectorAll('[data-nav]').forEach(function (a) {
       a.classList.toggle('is-active', a.dataset.nav === 'archive');
+    });
+  }
+
+  // Auf der Startseite sanft zum Archiv scrollen statt springen
+  if (archive) {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    document.querySelectorAll('a[href="/#archiv"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggleNav(false);
+        history.pushState(null, '', location.search + '#archiv');
+        archive.scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+      });
     });
   }
 }());
