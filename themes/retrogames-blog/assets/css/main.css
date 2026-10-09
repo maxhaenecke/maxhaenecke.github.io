@@ -265,21 +265,18 @@ button { font: inherit; color: inherit; }
 
 .logo {
   grid-column: 1 / span 3;
+  justify-self: start;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  white-space: nowrap;
+  --logo-h: 12px;
 }
 
-.logo-dot {
-  flex: none;
-  width: 5px;
-  height: 5px;
-  margin: 0 -6px 0 -8px;
-  border-radius: 50%;
-  background: var(--accent);
+.logo-img svg {
+  display: block;
+  height: var(--logo-h);
+  width: auto;
 }
+[data-theme="dark"] .logo-img--on-light,
+:root:not([data-theme="dark"]) .logo-img--on-dark { display: none; }
 
 .tagline {
   grid-column: 4 / span 5;
@@ -443,12 +440,6 @@ button { font: inherit; color: inherit; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-.footer-bottom .logo {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  letter-spacing: 0.05em;
-  line-height: normal;
 }
 
 @media (max-width: 1099px) {

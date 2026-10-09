@@ -1,1 +1,13 @@
-<a class="logo t-ui" href="/" aria-label="{{ site.Params.blogName }}">Max<span class="logo-dot" aria-hidden="true"></span>Backlog</a>
+{{- /*
+  Logo aus assets/images/ (Projekt), inline eingebettet: beide Varianten im HTML,
+  CSS zeigt je nach data-theme die passende – kein Aufblitzen beim Umschalten.
+  Hinweis zu den Dateinamen: „…-logo-dark.svg“ hat dunkle Schrift (für den hellen
+  Modus), „…-logo-light.svg“ helle Schrift (für den dunklen Modus).
+*/ -}}
+{{- $onLight := resources.Get "images/maxbacklog-logo-dark.svg" -}}
+{{- $onDark  := resources.Get "images/maxbacklog-logo-light.svg" -}}
+{{- $strip := `(<svg[^>]*?)\s+width="[^"]*"\s+height="[^"]*"` -}}
+<a class="logo" href="/" aria-label="{{ site.Params.blogName }}">
+  {{- with $onLight }}<span class="logo-img logo-img--on-light" aria-hidden="true">{{ replaceRE $strip "$1" .Content | safeHTML }}</span>{{ end -}}
+  {{- with $onDark }}<span class="logo-img logo-img--on-dark" aria-hidden="true">{{ replaceRE $strip "$1" .Content | safeHTML }}</span>{{ end -}}
+</a>

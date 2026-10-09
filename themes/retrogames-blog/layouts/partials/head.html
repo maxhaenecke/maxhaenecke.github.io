@@ -1,5 +1,6 @@
 <meta charset="utf-8">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ if .IsHome }}{{ site.Params.blogName }}{{ else if eq .Kind "404" }}Nicht gefunden — {{ site.Params.blogName }}{{ else }}{{ .Title }} — {{ site.Params.blogName }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Params.lead }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}{{ end }}">
