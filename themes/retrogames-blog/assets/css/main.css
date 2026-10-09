@@ -844,12 +844,17 @@ button { font: inherit; color: inherit; }
   flex-direction: column;
   gap: 15px;
   cursor: zoom-in;
+  counter-increment: fig; /* „Abb. n“ zählt mit den Einzelabbildungen durch */
 }
 
 .gallery-cap {
   display: flex;
   gap: 10px;
   align-items: baseline;
+}
+.gallery-cap .fig-num {
+  flex: none;
+  white-space: nowrap;
 }
 
 /* Das hohe Bild (2) läuft über zwei Rasterzeilen, damit (3) direkt unter (1) rückt */
@@ -878,43 +883,34 @@ button { font: inherit; color: inherit; }
   .gallery-item:hover .media img { transform: none; }
 }
 
-/* Lightbox */
+/* Lightbox: Fenster mit Rand, daneben bleibt die (abgedunkelte) Seite klickbar */
 .lightbox {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  max-height: none;
-  margin: 0;
-  padding: 24px var(--gutter);
+  --lb-pad: 32px;
+  max-width: calc(100vw - 2 * var(--gutter));
+  max-height: calc(100vh - 2 * var(--gutter));
+  padding: var(--lb-pad);
   border: 0;
-  background: var(--overlay);
+  background: var(--paper);
   color: var(--ink);
   overflow: hidden;
 }
 .lightbox[open] {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
   animation: lb-in .25s ease;
 }
-.lightbox::backdrop { background: transparent; }
+.lightbox::backdrop {
+  background: rgba(22, 22, 21, 0.55);
+  animation: lb-in .25s ease;
+}
+[data-theme="dark"] .lightbox::backdrop { background: rgba(0, 0, 0, 0.7); }
 @keyframes lb-in { from { opacity: 0; } }
 
-.lb-close {
-  justify-self: end;
-  padding: 8px 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  transition: color .2s;
-}
-.lb-close:hover { color: var(--accent); }
-
 .lb-stage {
-  min-height: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  overflow: hidden; /* Bildwechsel gleitet innerhalb der Bildfläche */
   touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
@@ -922,34 +918,48 @@ button { font: inherit; color: inherit; }
 
 .lb-img {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: auto;
+  height: auto;
+  max-width: calc(100vw - 2 * var(--gutter) - 2 * var(--lb-pad));
+  /* Platz für Rand und Zeile mit Bildunterschrift/Pfeilen lassen */
+  max-height: calc(100vh - 2 * var(--gutter) - 2 * var(--lb-pad) - 68px);
   transition: transform .3s var(--ease);
 }
 
+/* Zeile unter dem Bild: so breit wie das Bild (wächst nicht mit langem Text) */
 .lb-bar {
+  width: 0;
+  min-width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 20px;
+  gap: 24px;
 }
-.lb-cap { margin: 0; }
+.lb-cap {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.lb-cap .t-meta { flex: none; white-space: nowrap; }
 
 .lb-ctl {
+  flex: none;
   display: flex;
-  gap: 12px;
+  align-items: baseline;
+  gap: 4px;
   font-size: 15px;
 }
 .lb-ctl[hidden] { display: none; }
 
 .lb-btn {
-  padding: 8px;
+  padding: 4px 8px;
   border: 0;
   background: none;
   cursor: pointer;
   transition: color .2s;
 }
+.lb-btn:last-child { padding-right: 0; }
 .lb-btn:hover { color: var(--accent); }
 
 /* Zitat */
