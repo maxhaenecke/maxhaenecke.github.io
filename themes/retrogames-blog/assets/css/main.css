@@ -230,7 +230,6 @@ button { font: inherit; color: inherit; }
 }
 
 /* Nicht klickbare Bilder: nur Farbe */
-.hov-color:hover img,
 .fig:hover img { filter: none; }
 
 /* „Essay lesen →“ */
@@ -1077,12 +1076,12 @@ button { font: inherit; color: inherit; }
 }
 
 .about-portrait {
-  grid-column: 1 / span 5;
+  grid-column: 1 / span 4;
   aspect-ratio: 4 / 5;
 }
 
 .about-text {
-  grid-column: 7 / span 6;
+  grid-column: 6 / span 7;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -1111,7 +1110,7 @@ button { font: inherit; color: inherit; }
 }
 
 @media (max-width: 1099px) {
-  .about-portrait { grid-column: 1 / span 6; }
+  .about-portrait { grid-column: 1 / span 5; }
 }
 
 @media (max-width: 699px) {

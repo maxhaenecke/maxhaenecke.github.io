@@ -5,7 +5,7 @@
   <div class="about grid pad">
     <span class="about-label t-meta accent">Der Autor hier</span>
     <h1 class="about-title t-display">{{ site.Params.authorName }}</h1>
-    <div class="about-portrait media hov-color">
+    <div class="about-portrait media">
       {{- with site.Params.authorImage }}
       <img src="{{ . | relURL }}" alt="{{ site.Params.authorName }}">
       {{- end }}
