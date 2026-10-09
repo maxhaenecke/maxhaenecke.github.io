@@ -751,9 +751,9 @@ button { font: inherit; color: inherit; }
 
 .article-body > .sub { grid-column: 1 / -1; }
 
-/* H2 mit Nummer */
+/* H2 mit Nummer (Abstand nach oben: siehe „Block-Rhythmus“) */
 .h2-wrap {
-  margin: 40px 0 36px;
+  margin-bottom: 36px;
   align-items: baseline;
   counter-increment: h2;
 }
@@ -777,7 +777,6 @@ button { font: inherit; color: inherit; }
 
 /* Abbildung (figure-wide) – Seite wechselt mit jeder Abbildung */
 .fig {
-  margin: calc(72px * var(--vs)) 0 calc(100px * var(--vs));
   align-items: end;
   counter-increment: fig;
 }
@@ -823,8 +822,6 @@ button { font: inherit; color: inherit; }
 /* Galerie (slider / slide): versetztes Raster, Muster wiederholt sich je 3 Bilder.
    Maße aus der Figma-Skizze „Max.Backlog – Galerie-Grid“. */
 .gallery {
-  /* 100px Luft zum Absatz davor (inkl. dessen 28px Außenabstand) und danach */
-  margin: calc(100px * var(--vs) - 28px) 0 calc(100px * var(--vs));
   row-gap: calc(80px * var(--vs));
   align-items: start;
 }
@@ -955,7 +952,6 @@ button { font: inherit; color: inherit; }
 /* Zitat */
 .article-body > .pullquote {
   position: relative;
-  margin: 72px 0 88px;
   font-size: clamp(22px, 2.35vw, 30px);
   line-height: 1.3;
   letter-spacing: -0.02em;
@@ -978,7 +974,6 @@ button { font: inherit; color: inherit; }
 
 /* Hinweis-Box */
 .note {
-  margin: 48px 0 76px;
   align-items: baseline;
 }
 .note-text {
@@ -987,13 +982,35 @@ button { font: inherit; color: inherit; }
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink);
   color: var(--note);
-  font-size: 18px;
-  line-height: 1.6;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.5;
   hyphens: auto;
   text-wrap: pretty;
 }
 .note-text p { margin: 0 0 1em; }
 .note-text p:last-child { margin-bottom: 0; }
+
+/* Block-Rhythmus: Über Zwischenüberschriften, Abbildungen, Galerien, Zitaten
+   und Highlights sowie unter allen außer der Überschrift steht derselbe
+   Abstand (--block-space: Desktop 100px, Tablet 75px, Handy 55px). Absätze
+   bringen selbst 28px mit, die hier abgezogen werden; folgen zwei Blöcke
+   aufeinander, zählt der Abstand nur einmal. */
+.article-body { --block-space: calc(100px * var(--vs)); }
+
+.article-body > :is(.h2-wrap, .fig, .gallery, .pullquote, .note) {
+  margin-top: calc(var(--block-space) - 28px);
+}
+.article-body > :is(.fig, .gallery, .pullquote, .note) {
+  margin-bottom: var(--block-space);
+}
+.article-body > :is(.fig, .gallery, .pullquote, .note) + :is(.h2-wrap, .fig, .gallery, .pullquote, .note) {
+  margin-top: 0;
+}
+.article-body > .h2-wrap + :is(.fig, .gallery, .pullquote, .note) {
+  margin-top: calc(var(--block-space) - 36px);
+}
 
 /* Schlagworte */
 .tags-block {
