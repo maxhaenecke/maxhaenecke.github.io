@@ -61,17 +61,51 @@ function toggleNav(force) {
 
   // Auf der Startseite sanft zum Archiv scrollen statt springen
   if (archive) {
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     document.querySelectorAll('a[href="/#archiv"]').forEach(function (a) {
       a.addEventListener('click', function (e) {
         e.preventDefault();
         toggleNav(false);
         history.pushState(null, '', location.search + '#archiv');
-        archive.scrollIntoView({ behavior: reduce.matches ? 'auto' : 'smooth', block: 'start' });
+        scrollToEl(archive);
       });
     });
   }
 }());
+
+// Ruhiger Scroll mit fester Dauer (der native „smooth“-Scroll lässt sich nicht
+// verlangsamen). Bricht ab, sobald man selbst scrollt.
+function scrollToEl(el, duration) {
+  var startY  = window.scrollY;
+  var targetY = Math.min(
+    el.getBoundingClientRect().top + startY,
+    document.documentElement.scrollHeight - window.innerHeight
+  );
+  var dist = targetY - startY;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || Math.abs(dist) < 2) {
+    window.scrollTo(0, targetY);
+    return;
+  }
+  duration = duration || 1200;
+  var t0 = null, cancelled = false;
+  var stop = function () { cancelled = true; };
+  var opts = { passive: true, once: true };
+  window.addEventListener('wheel', stop, opts);
+  window.addEventListener('touchstart', stop, opts);
+  window.addEventListener('keydown', stop, opts);
+  var ease = function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+  requestAnimationFrame(function step(now) {
+    if (cancelled) return;
+    if (t0 === null) t0 = now;
+    var p = Math.min((now - t0) / duration, 1);
+    window.scrollTo(0, startY + dist * ease(p));
+    if (p < 1) requestAnimationFrame(step);
+    else {
+      window.removeEventListener('wheel', stop);
+      window.removeEventListener('touchstart', stop);
+      window.removeEventListener('keydown', stop);
+    }
+  });
+}
 </script>
 </body>
 </html>

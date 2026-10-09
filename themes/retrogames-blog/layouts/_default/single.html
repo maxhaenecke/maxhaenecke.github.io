@@ -63,4 +63,5 @@
 </main>
 
 {{ partial "footer.html" (dict "current" "") }}
+{{ if .HasShortcode "slider" }}<script src="/js/gallery.js" defer></script>{{ end }}
 {{ end }}
