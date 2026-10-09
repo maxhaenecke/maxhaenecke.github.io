@@ -1,0 +1,44 @@
+{{- /*
+  Canonical, RSS und Vorschaudaten für geteilte Links (Open Graph / Twitter).
+  Aufruf aus head.html: partial "meta.html" (dict "page" . "desc" $desc)
+*/ -}}
+{{- $p := .page -}}
+{{- $title := cond $p.IsHome site.Params.blogName $p.Title -}}
+
+{{- /* Vorschaubild: Titelbild des Artikels; Startseite: Bild des Beitrags „Im Fokus“; Über: Porträt */ -}}
+{{- $image := $p.Params.image -}}
+{{- if and $p.IsHome (not $image) -}}
+  {{- with index (where (where site.RegularPages "Section" "archive") "Params.featured" true) 0 }}{{ $image = .Params.image }}{{ end -}}
+{{- end -}}
+{{- if and (eq $p.RelPermalink "/about/") (not $image) }}{{ $image = site.Params.authorImage }}{{ end -}}
+
+<link rel="canonical" href="{{ $p.Permalink }}">
+{{ with site.Home.OutputFormats.Get "rss" -}}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Params.blogName }}">
+{{- end }}
+
+<meta property="og:site_name" content="{{ site.Params.blogName }}">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ .desc }}">
+<meta property="og:url" content="{{ $p.Permalink }}">
+{{- if and $p.IsPage (eq $p.Section "archive") }}
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="{{ $p.Date.Format "2006-01-02T15:04:05Z07:00" }}">
+{{- with $p.Params.platform }}
+<meta property="article:tag" content="{{ . }}">{{ end }}
+{{- with $p.Params.genre }}
+<meta property="article:tag" content="{{ . }}">{{ end }}
+{{- else }}
+<meta property="og:type" content="website">
+{{- end }}
+{{- with $image }}
+<meta property="og:image" content="{{ . | absURL }}">
+<meta property="og:image:alt" content="{{ $title }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ . | absURL }}">
+{{- else }}
+<meta name="twitter:card" content="summary">
+{{- end }}
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ .desc }}">

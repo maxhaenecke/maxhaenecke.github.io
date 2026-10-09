@@ -1,10 +1,17 @@
-baseURL = "http://localhost:1313/"
+baseURL = "https://maxbacklog.de/"
 languageCode = "de"
-title = "RetroGames Blog"
+title = "Max.Backlog"
 theme = "retrogames-blog"
 
 [pagination]
   pagerSize = 10
+
+# Nur ein RSS-Feed (Startseite); Archiv- und Taxonomie-Seiten sind reine Weiterleitungen
+[outputs]
+  home     = ["html", "rss"]
+  section  = ["html"]
+  taxonomy = ["html"]
+  term     = ["html"]
 
 [taxonomies]
   platform = "platforms"

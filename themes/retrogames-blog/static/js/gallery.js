@@ -53,7 +53,7 @@
     stage.addEventListener('pointerdown', function (e) {
       if (e.pointerType === 'mouse' || items.length < 2) return;
       pid = e.pointerId; startX = e.clientX; dx = 0;
-      stage.setPointerCapture(pid);
+      try { stage.setPointerCapture(pid); } catch (err) {}
       img.style.transition = 'none';
     });
     stage.addEventListener('pointermove', function (e) {

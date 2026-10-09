@@ -22,6 +22,8 @@ function toggleTheme() {
   var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
   try { localStorage.setItem('theme', next); } catch (e) {}
+  var tc = document.querySelector('meta[name="theme-color"]');
+  if (tc) tc.content = next === 'dark' ? '#161615' : '#fbfbf9';
   syncThemeToggles();
 }
 
