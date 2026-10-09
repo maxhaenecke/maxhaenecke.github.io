@@ -23,10 +23,10 @@
   /* Meta-/Caption-Schrift (Rubriken, Daten, Nummern, Bildunterschriften) */
   --meta-font:  var(--font-serif);
   --meta-style: normal;
-  --meta-size:  16px;
+  --meta-size:  18px;
   --meta-track: 0.005em;
   --meta-case:  none;
-  --cap-size:   16px;
+  --cap-size:   18px;
   --cap-track:  0;
   --ease: cubic-bezier(.2, .7, .2, 1);
 
@@ -149,7 +149,7 @@ button { font: inherit; color: inherit; }
   font-family: var(--meta-font);
   font-style: var(--meta-style);
   font-size: var(--cap-size);
-  line-height: 1.6;
+  line-height: 1.4;
   letter-spacing: var(--cap-track);
   text-transform: none;
   font-variant-numeric: lining-nums;
