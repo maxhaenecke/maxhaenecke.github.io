@@ -1,6 +1,6 @@
 ---
 title: "Das Dark Souls von damals"
-date: 2026-05-12
+date: 2026-05-13
 platform: "PS1"
 genre: "JRPG"
 lead: "Ein Held ohne Klasse, ein Dungeon ohne Karte – und ein Skript, das der breiten Masse schlicht zu viel war."
