@@ -30,6 +30,16 @@
     {{- $finalSrc = $r.RelPermalink -}}
     {{- $w = $r.Width -}}
     {{- $h = $r.Height -}}
+  {{- else -}}
+    {{- /* Bild aus static/ (z. B. /images/<slug>/…): Maße direkt aus der Datei lesen,
+           damit der Browser vor dem Laden den richtigen Platz reserviert */ -}}
+    {{- $file := path.Join "static" $src -}}
+    {{- if and (hasPrefix $src "/") (fileExists $file) -}}
+      {{- with images.Config $file -}}
+        {{- $w = .Width -}}
+        {{- $h = .Height -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
 
   {{- .Parent.Scratch.Add "items" (slice (dict

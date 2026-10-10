@@ -856,7 +856,7 @@ button { font: inherit; color: inherit; }
 .gallery--single .gallery-item:first-child { grid-column: var(--wide); }
 
 /* Tablet: dasselbe Raster, Versatz und Abstand skalieren über --vs mit.
-   Handy: einspaltig, alle Bilder im selben Format. */
+   Handy: einspaltig, jedes Bild im Originalformat. */
 @media (max-width: 699px) {
   .gallery { row-gap: 32px; }
   .gallery .gallery-item:nth-child(n) {
@@ -864,7 +864,9 @@ button { font: inherit; color: inherit; }
     grid-row: auto;
     margin-top: 0;
   }
-  .gallery .gallery-item:nth-child(n) .gallery-img { aspect-ratio: 3 / 2; }
+  /* Originalformat jedes Bildes, nichts wird beschnitten */
+  .gallery .gallery-item:nth-child(n) .gallery-img { aspect-ratio: auto; }
+  .gallery .gallery-img img { height: auto; }
   /* keine Lightbox auf dem Handy: kein Zoom-Cursor, kein Zoom beim Antippen */
   .gallery-item { cursor: default; }
   .gallery-item:hover .media img { transform: none; }
