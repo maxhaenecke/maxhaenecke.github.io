@@ -3,14 +3,13 @@
 
 <main class="main">
   <div class="about grid pad">
-    <span class="about-label t-meta accent">Der Autor hier</span>
-    <h1 class="about-title t-display">{{ site.Params.authorName }}</h1>
     <div class="about-portrait media">
       {{- with site.Params.authorImage }}
       {{ partial "img.html" (dict "src" . "alt" site.Params.authorName "sizes" "(min-width: 700px) 40vw, 100vw") }}
       {{- end }}
     </div>
     <div class="about-text">
+      <h1 class="about-title t-display2">Max schreibt hier</h1>
       {{ with site.Params.authorBio }}<p class="about-intro t-title">{{ . }}</p>{{ end }}
       <div class="about-body">{{ .Content }}</div>
     </div>
