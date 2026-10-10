@@ -24,14 +24,9 @@
 {{- else -}}
 <div class="gallery sub{{ if eq $total 1 }} gallery--single{{ end }}" id="{{ $id }}" data-gallery role="group" aria-label="Galerie mit {{ $total }} Bildern">
   {{- range $i, $it := $items }}
-  <a href="{{ $it.src }}" class="gallery-item card" data-index="{{ $i }}" data-caption="{{ $it.caption }}" aria-label="Bild {{ add $i 1 }} von {{ $total }} vergrößern{{ with $it.caption }}: {{ . }}{{ end }}">
+  <a href="{{ partial "img-large.html" $it.src }}" class="gallery-item card" data-index="{{ $i }}" data-caption="{{ $it.caption }}" aria-label="Bild {{ add $i 1 }} von {{ $total }} vergrößern{{ with $it.caption }}: {{ . }}{{ end }}">
     <span class="gallery-img media">
-      <img src="{{ $it.src }}"
-           alt="{{ $it.alt }}"
-           {{ with $it.w }}width="{{ . }}"{{ end }}
-           {{ with $it.h }}height="{{ . }}"{{ end }}
-           loading="lazy"
-           decoding="async">
+      {{ partial "img.html" (dict "src" $it.src "alt" $it.alt "sizes" "(min-width: 700px) 45vw, 100vw") }}
     </span>
     <span class="gallery-cap">
       <span class="fig-num t-meta"></span>

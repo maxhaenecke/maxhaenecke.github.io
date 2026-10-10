@@ -6,7 +6,7 @@
   </div>
   <a href="{{ .RelPermalink }}" class="hero-img media{{ if not .Params.image }} is-ph{{ end }}" tabindex="-1" aria-hidden="true">
     {{- with .Params.image }}
-    <img src="{{ . | relURL }}" alt="" loading="eager"{{ with $.Params.image_position }} style="object-position: {{ . | safeCSS }}"{{ end }}>
+    {{ partial "img.html" (dict "src" . "eager" true "position" $.Params.image_position "sizes" "(min-width: 1100px) 67vw, 100vw") }}
     {{- end }}
   </a>
   <h2 class="hero-title t-display"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>

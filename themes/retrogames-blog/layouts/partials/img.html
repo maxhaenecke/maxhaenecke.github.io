@@ -1,0 +1,50 @@
+{{- /*
+  img — responsives Bild: WebP in mehreren Breiten (srcset) plus width/height,
+  damit der Browser vorab Platz reserviert und nur die passende Größe lädt.
+  Bilder aus static/images/ sind per Mount (hugo.toml) auch als Ressource
+  erreichbar; Originale bleiben für Open Graph unter /images/… erhalten.
+
+  Aufruf: partial "img.html" (dict
+    "src"      "/images/<slug>/datei.jpg"   (verpflichtend)
+    "alt"      "…"                          (optional, Default: leer)
+    "sizes"    "(max-width: 699px) 100vw, 50vw"  (optional, Default: 100vw)
+    "eager"    true                         (optional: sofort laden, hohe Priorität)
+    "position" "center 25%"                 (optional: object-position)
+  )
+  Nicht verarbeitbare Bilder (extern, SVG, fehlende Datei) werden unverändert ausgegeben.
+*/ -}}
+{{- $src := .src -}}
+{{- $img := false -}}
+{{- if and (hasPrefix $src "/") (not (hasPrefix $src "//")) -}}
+  {{- with resources.Get (strings.TrimPrefix "/" $src) -}}
+    {{- if in (slice "image/jpeg" "image/png" "image/webp") .MediaType.Type -}}
+      {{- $img = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with $img -}}
+  {{- $max := cond (gt $img.Width 2000) 2000 $img.Width -}}
+  {{- $set := slice -}}
+  {{- $fallback := false -}}
+  {{- range slice 480 800 1200 1600 -}}
+    {{- if lt . $max -}}
+      {{- $r := $img.Resize (printf "%dx webp" .) -}}
+      {{- $set = $set | append (printf "%s %dw" $r.RelPermalink $r.Width) -}}
+      {{- if le . 1200 }}{{ $fallback = $r }}{{ end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- /* Originalbreite (max. 2000 px) als größte Stufe */ -}}
+  {{- $top := $img.Resize (printf "%dx webp" $max) -}}
+  {{- $set = $set | append (printf "%s %dw" $top.RelPermalink $top.Width) -}}
+  {{- if not $fallback }}{{ $fallback = $top }}{{ end -}}
+<img src="{{ $fallback.RelPermalink }}" srcset="{{ delimit $set ", " }}" sizes="{{ $.sizes | default "100vw" }}" width="{{ $img.Width }}" height="{{ $img.Height }}" {{ template "img-attrs" $ }}>
+{{- else -}}
+<img src="{{ $src | relURL }}" {{ template "img-attrs" . }}>
+{{- end -}}
+
+{{- define "img-attrs" -}}
+alt="{{ .alt | default "" }}"
+{{- if .eager }} loading="eager" fetchpriority="high"{{ else }} loading="lazy" decoding="async"{{ end }}
+{{- with .position }} style="object-position: {{ . | safeCSS }}"{{ end }}
+{{- end -}}

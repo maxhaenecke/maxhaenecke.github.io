@@ -1,7 +1,7 @@
 {{- /*
   figure-wide — Abbildung mit Nummer („Abb. 01“) und Bildunterschrift.
   Die Seite (links/rechts) wechselt mit jeder Abbildung; Nummer und Wechsel per CSS.
-  Parameter: src, alt, caption. Fehlt src (oder ist es ein Platzhalter-Dienst),
+  Parameter: src, alt (Default: caption), caption. Fehlt src (oder ist es ein Platzhalter-Dienst),
   erscheint „Screenshot fehlt noch“.
 */ -}}
 {{- $src := .Get "src" | default "" -}}
@@ -11,7 +11,7 @@
     {{- if $isPh }}
     <div class="fig-ph t-meta">Screenshot fehlt noch</div>
     {{- else }}
-    <img src="{{ $src }}" alt="{{ .Get "alt" | default "" }}" loading="lazy">
+    {{ partial "img.html" (dict "src" $src "alt" (.Get "alt" | default (.Get "caption")) "sizes" "(min-width: 1100px) 60vw, (min-width: 700px) 75vw, 100vw") }}
     {{- end }}
   </div>
   <figcaption class="fig-cap">

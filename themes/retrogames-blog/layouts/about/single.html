@@ -7,7 +7,7 @@
     <h1 class="about-title t-display">{{ site.Params.authorName }}</h1>
     <div class="about-portrait media">
       {{- with site.Params.authorImage }}
-      <img src="{{ . | relURL }}" alt="{{ site.Params.authorName }}">
+      {{ partial "img.html" (dict "src" . "alt" site.Params.authorName "sizes" "(min-width: 700px) 40vw, 100vw") }}
       {{- end }}
     </div>
     <div class="about-text">

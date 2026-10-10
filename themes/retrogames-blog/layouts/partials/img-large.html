@@ -1,0 +1,14 @@
+{{- /*
+  img-large — URL der großen WebP-Variante (max. 2000 px breit) für die Lightbox.
+  Aufruf: partial "img-large.html" "/images/<slug>/datei.jpg"
+  Nicht verarbeitbare Bilder: Pfad unverändert.
+*/ -}}
+{{- $url := . | relURL -}}
+{{- if and (hasPrefix . "/") (not (hasPrefix . "//")) -}}
+  {{- with resources.Get (strings.TrimPrefix "/" .) -}}
+    {{- if in (slice "image/jpeg" "image/png" "image/webp") .MediaType.Type -}}
+      {{- $url = (.Resize (printf "%dx webp" (cond (gt .Width 2000) 2000 .Width))).RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $url -}}

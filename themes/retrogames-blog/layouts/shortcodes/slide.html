@@ -1,7 +1,8 @@
 {{- /*
   slide — Kindelement von {{< slider >}}
   Parameter:
-    src      (verpflichtend) Pfad zum Bild · Page Resource oder global
+    src      (verpflichtend) Pfad zum Bild, z. B. /images/<slug>/datei.jpg
+             Größen, WebP-Varianten und Maße erzeugt partials/img.html
     caption  (optional)      Bildunterschrift
     alt      (optional)      Alt-Text · Default: caption
 */ -}}
@@ -14,38 +15,8 @@
   {{- $caption := .Get "caption" | default (.Get 1) | default "" -}}
   {{- $alt     := .Get "alt" | default $caption -}}
 
-  {{- $img := .Page.Resources.GetMatch $src -}}
-  {{- if not $img -}}
-    {{- $img = resources.GetMatch $src -}}
-  {{- end -}}
-
-  {{- $finalSrc := $src -}}
-  {{- $w := 0 -}}
-  {{- $h := 0 -}}
-  {{- with $img -}}
-    {{- $r := . -}}
-    {{- if gt .Width 1600 -}}
-      {{- $r = .Resize "1600x" -}}
-    {{- end -}}
-    {{- $finalSrc = $r.RelPermalink -}}
-    {{- $w = $r.Width -}}
-    {{- $h = $r.Height -}}
-  {{- else -}}
-    {{- /* Bild aus static/ (z. B. /images/<slug>/…): Maße direkt aus der Datei lesen,
-           damit der Browser vor dem Laden den richtigen Platz reserviert */ -}}
-    {{- $file := path.Join "static" $src -}}
-    {{- if and (hasPrefix $src "/") (fileExists $file) -}}
-      {{- with images.Config $file -}}
-        {{- $w = .Width -}}
-        {{- $h = .Height -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
-
   {{- .Parent.Scratch.Add "items" (slice (dict
-        "src"     $finalSrc
+        "src"     $src
         "alt"     $alt
-        "caption" $caption
-        "w"       $w
-        "h"       $h)) -}}
+        "caption" $caption)) -}}
 {{- end -}}

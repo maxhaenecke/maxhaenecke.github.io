@@ -8,7 +8,7 @@
   <a href="{{ $p.RelPermalink }}" class="teaser teaser--{{ add $i 1 }} card" data-reveal>
     <div class="teaser-img media{{ if not $p.Params.image }} is-ph{{ end }}">
       {{- with $p.Params.image }}
-      <img src="{{ . | relURL }}" alt="" loading="lazy"{{ with $p.Params.image_position }} style="object-position: {{ . | safeCSS }}"{{ end }}>
+      {{ partial "img.html" (dict "src" . "position" $p.Params.image_position "sizes" "(min-width: 700px) 45vw, 100vw") }}
       {{- end }}
     </div>
     {{ with partial "pg.html" (dict "page" $p "sep" " / ") }}<span class="t-meta">{{ . }}</span>{{ end }}
