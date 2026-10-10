@@ -22,7 +22,8 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: 'latest'
+          # Gleiche Version wie lokal (hugo version); bei Updates beide gemeinsam anheben
+          hugo-version: '0.160.1'
           extended: true
 
       - name: Build
