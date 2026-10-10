@@ -28,9 +28,9 @@ Gleichzeitig hat das Spiel eklatante Schwächen. Die Kamera ist bockig und verwe
 Die Mech-Bosskämpfe verdienen eine eigene Erwähnung. In diesen Sequenzen besteigt Goemon seinen riesigen Roboter Impact (der eigentlich ein Filmstar in Hollywood ist), und bezwingt in Third- und First-Person gegnerische Kampfroboter. Konami würfelt so viele Ideen so wild durcheinander, dass ein unvergleichliches Kaleidoskop des Spieldesigns entsteht.
 
 {{< slider >}}
-  {{< slide src="mystical-ninja-starring-goemon-02.jpg" caption="Die Hunde sind gute Tippgeber – meistens." >}}
-  {{< slide src="mystical-ninja-starring-goemon-03.jpg" caption="Hier begrüßen uns die bizarren Gegner nahe des Mt. Fuji." >}}
-  {{< slide src="mystical-ninja-starring-goemon-05.jpg" caption="Der mit Abstand am meisten besuchte NPC: der Wahrsager" >}}
+  {{< slide src="/images/mystical-ninja-starring-goemon/mystical-ninja-starring-goemon-02.jpg" caption="Die Hunde sind gute Tippgeber – meistens." >}}
+  {{< slide src="/images/mystical-ninja-starring-goemon/mystical-ninja-starring-goemon-03.jpg" caption="Hier begrüßen uns die bizarren Gegner nahe des Mt. Fuji." >}}
+  {{< slide src="/images/mystical-ninja-starring-goemon/mystical-ninja-starring-goemon-05.jpg" caption="Der mit Abstand am meisten besuchte NPC: der Wahrsager" >}}
 {{< /slider >}}
 
 ## Stilsicheres Design
