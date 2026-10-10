@@ -108,7 +108,7 @@ button { font: inherit; color: inherit; }
 
 .t-display {
   font-weight: 700;
-  font-size: clamp(44px, 10.6vw, 136px);
+  font-size: clamp(39.6px, 9.54vw, 122.4px); /* 10 % unter dem Handoff-Wert 44px / 10.6vw / 136px */
   line-height: 0.88;
   letter-spacing: -0.05em;
   text-wrap: balance;
