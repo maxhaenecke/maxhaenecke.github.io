@@ -7,9 +7,8 @@
 <meta name="description" content="{{ $desc }}">
 <meta name="theme-color" content="#fbfbf9">
 {{ if ne .Kind "404" }}{{ partial "meta.html" (dict "page" . "desc" $desc) }}{{ end }}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz@0,6..72;1,6..72&family=Schibsted+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/schibsted-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>
 (function () {
   var t;
