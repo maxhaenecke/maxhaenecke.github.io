@@ -17,7 +17,7 @@ favorite: true
 
 Im Oktober 1992 erschien in Japan *Super Mario Land 2: 6 Golden Coins*, nach Europa kam es im Januar 1993. Entwickelt wurde es bei Nintendo R&D1 unter Produzent Gunpei Yokoi, dem Erfinder des Game Boy. Mit über 11 Millionen verkauften Exemplaren gehört es zu den erfolgreichsten Game-Boy-Spielen überhaupt – und es ist das Spiel, in dem Wario zum ersten Mal auftritt.
 
-Für mich ist es mehr als die Summe seiner Teile: Defintiv mein Lieblingsspiel auf dem Game Boy und einer meiner Alltime-Favoriten überhaupt. Statt eines Artikels gibt es deshalb diesmal ein Interview – Fragen und Antworten über ein Spiel, das mich seit meiner Gaming-Frühzeit begleitet.
+Für mich ist es mehr als die Summe seiner Teile: Definitiv mein Lieblingsspiel auf dem Game Boy und einer meiner Alltime-Favoriten überhaupt. Statt eines Artikels gibt es deshalb diesmal ein Interview – Fragen und Antworten über ein Spiel, das mich seit meiner Gaming-Frühzeit begleitet.
 
 ## Wie bist du zu Super Mario Land 2 gekommen?
 
@@ -27,13 +27,13 @@ Ich war damals sieben oder acht Jahre alt. Genau wie der Game Boy gehörte das S
 
 Meistens am Küchentisch, ganz ohne Extras wie Lupe oder Licht-Aufsatz. Angesichts des kleinen, dunklen Bildschirms kann ich mir das heute kaum noch vorstellen, aber irgendwie ging das. Damals durfte ich natürlich noch nicht so ausdauernd spielen wie in späteren Jahren, aber Game Boy-Spiele waren einfach perfekt für kurze Sessions. Zumal Mario Land 2 sogar Speicherstände hatte und man nicht wie beim Vorgänger immer wieder von vorne anfangen musste.
 
-{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-glue.jpg" alt="Beschreibung für Screenreader" caption="Das Level mit dem klebrigen Baumharz ist seit jeher ein Highlight." >}}
+{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-glue.jpg" alt="Screenshot aus Super Mario Land 2: Mario hängt im Baum-Level an einer Decke aus klebrigem Harz." caption="Das Level mit dem klebrigen Baumharz ist seit jeher ein Highlight." >}}
 
 ## Was war dein erster Eindruck im Vergleich zum Vorgänger?
 
 Grafik und Sound waren ein ordentliches Upgrade, und auch die Steuerung fühlte sich präziser an und war vielseitiger. Das Spiel leiht sich einige Grafik-Assets und Bewegungsabläufe von Super Mario World auf dem SNES – tatsächlich hatte das Team das Design bewusst näher an Super Mario World gerückt, nachdem sich ein erster Entwurf zu wenig nach Mario angefühlt hatte. Die Handlung spielt aber in einer ganz neuen Welt mit teils etwas abstrusen Settings und Gegnern: kleine Horrormasken in den Levels der Kürbis-Zone oder Levels aus Klemmbausteinen in der Mario-Zone. Vieles in diesem Spiel passt eigentlich nicht in Marios gewohnte Welt – und funktioniert trotzdem.
 
-{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-mask.jpg" alt="Beschreibung für Screenreader" caption="Wie passen diese Vieher in ein Mario-Spiel ...?" >}}
+{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-mask.jpg" alt="Screenshot aus Super Mario Land 2: Mario mit Hasenohren steht vor einer Backsteinmauer neben einem Gegner mit Totenkopfmaske." caption="Wie passen diese Vieher in ein Mario-Spiel ...?" >}}
 
 ## Was macht Mario Land 2 spielerisch für dich aus?
 
@@ -43,7 +43,7 @@ Grafik, Musik, Steuerung und Leveldesign sind für ein Game-Boy-Spiel auf erstau
 
 Ich hatte eine feste Reihenfolge, in der ich immer gespielt habe: Baum-Zone, Makro-Zone, Mario-Zone, Schildkröten-Zone, Kürbis-Zone und zum Schluss der Weltraum. In der Baum-Zone war mein Lieblingslevel das, in dem man durch zähes Baumharz springt. Die Mario-Zone hat eine tolle Dynamik, und die Stimmung in der Kürbis-Zone mochte ich sehr. Sie war das, was in Mario World die Geisterhäuser eingeläutet hatten.
 
-{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-tree-zone.jpg" alt="Beschreibung für Screenreader" caption="Die einzelnen Welten werden als niedliche Dioramen präsentiert." >}}
+{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-tree-zone.jpg" alt="Screenshot aus Super Mario Land 2: Die Tree Zone als Diorama – ein riesiger Baum mit Gegnern und dem Schriftzug „Tree Zone“." caption="Die einzelnen Welten werden als niedliche Dioramen präsentiert." >}}
 
 ## Wo hast du ewig festgehangen?
 
@@ -77,7 +77,7 @@ Ich finde, er bleibt hier noch sehr im Hintergrund – erst ganz am Ende trifft 
 
 Als Boss ist er hier spielerisch erstaunlich happig. Die Zonen-Bosse vorher sind alle kinderleicht, abgesehen von der Qualle, die mir heute noch regelmäßig Ärger machen kann. Und dann kommt Wario in drei aufeinanderfolgenden Phasen und macht einen erst mal fertig. Als Kind habe ich ihn nie geschafft.
 
-{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-castle.jpg" alt="Beschreibung für Screenreader" caption="Marios Schloss. Klempner sollte man sein. Allerdings wurde es von Wario besetzt." >}}
+{{< figure-wide src="/images/super-mario-land-2/super-mario-land-2-castle.jpg" alt="Screenshot aus Super Mario Land 2: Marios Schloss mit Wario-Wappen; Wario steht oben auf den Zinnen." caption="Marios Schloss. Klempner sollte man sein. Allerdings wurde es von Wario besetzt." >}}
 
 ## Spielst du Mario Land 2 heute noch?
 
