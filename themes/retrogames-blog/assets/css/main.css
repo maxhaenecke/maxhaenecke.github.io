@@ -802,7 +802,7 @@ button { font: inherit; color: inherit; }
 .fig-num { color: var(--accent); }
 .fig-num::before { content: "Abb. " counter(fig, decimal-leading-zero); }
 
-.article-body > .fig:nth-of-type(even) .fig-media { grid-column: 1 / span 8; }
+.article-body > .fig:nth-of-type(even) .fig-media { grid-column: 1 / span 9; }
 .article-body > .fig:nth-of-type(even) .fig-cap   { grid-column: 10 / span 3; }
 
 @media (max-width: 1099px) {
