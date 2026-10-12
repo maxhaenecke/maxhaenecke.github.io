@@ -65,7 +65,7 @@ Mit den großen Final-Fantasy-Teilen jener Jahre hat das Spiel sonst kaum etwas 
 
 {{< slider >}}
   {{< slide src="/images/vagrant-story/vagrant-story-sydney-losstarot.jpg" caption="Sydney und Ashley verbindet ein düsteres Geheimnis. Und viele Y." >}}
-  {{< slide src="/images/vagrant-story/vagrant-story-ashley-and-son.jpg" caption="In Rückblenden wird Ashleys tragische VErgangenheit vermittelt ..." >}}
+  {{< slide src="/images/vagrant-story/vagrant-story-ashley-and-son.jpg" caption="In Rückblenden wird Ashleys tragische Vergangenheit vermittelt ..." >}}
   {{< slide src="/images/vagrant-story/vagrant-story-intro.jpg" caption="Mir ist bis heute völlig unklar, wer die Frau im Introfilm sein soll." >}}
 {{</ slider >}}
 
