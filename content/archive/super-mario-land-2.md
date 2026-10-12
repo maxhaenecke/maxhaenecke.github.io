@@ -11,7 +11,7 @@ lead: "Mein Lieblings-Game-Boy-Spiel – und einer meiner Alltime-Favoriten übe
 image: "/images/super-mario-land-2/super-mario-land-2-hero-image.jpg"
 # Bildausschnitt, falls Motiv nicht mittig sitzt (z. B. "center 25%"):
 image_position: "center center"
-featured: true
+featured: false
 favorite: true
 ---
 
