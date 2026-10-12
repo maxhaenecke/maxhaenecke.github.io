@@ -268,21 +268,14 @@ button { font: inherit; color: inherit; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.05);
-  transition: filter .5s ease, transform .8s var(--ease);
+  transition: transform .8s var(--ease);
 }
 
-.media--color img { filter: none; }
-
-/* Klickbare Bilder: Farbe + Zoom */
+/* Klickbare Bilder: Zoom */
 .card:hover .media img,
 .hero:has(a:hover) .media img {
-  filter: none;
   transform: scale(1.03);
 }
-
-/* Nicht klickbare Bilder: nur Farbe */
-.fig:hover img { filter: none; }
 
 /* „Essay lesen →“ */
 .more {
@@ -1210,7 +1203,7 @@ button { font: inherit; color: inherit; }
 
 /* Versteckt wird sofort (ohne Ausblenden beim Laden), animiert wird nur
    das Einblenden. Eigene Ebene nur währenddessen – sonst zeichnet Safari
-   (macOS) die gefilterten Bilder in jedem Frame neu und die Bewegung ruckelt. */
+   (macOS) die Bilder in jedem Frame neu und die Bewegung ruckelt. */
 .js .reveal-pending {
   opacity: 0;
   transform: translateY(24px);

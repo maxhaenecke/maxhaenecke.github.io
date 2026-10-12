@@ -12,7 +12,7 @@
       <span>{{ .Date.Format "02.01.06" }}</span>
     </div>
     {{ with .Params.lead }}<p class="article-lead t-title">{{ . }}</p>{{ end }}
-    <div class="article-cover media media--color{{ if not .Params.image }} is-ph{{ end }}">
+    <div class="article-cover media{{ if not .Params.image }} is-ph{{ end }}">
       {{- with .Params.image }}
       {{ partial "img.html" (dict "src" . "alt" $.Title "eager" true "position" $.Params.image_position "sizes" "(min-width: 1280px) 1152px, 100vw") }}
       {{- end }}
